@@ -10,6 +10,10 @@
 }
 
 .history-toggle button {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  font-size: 0.88rem;
   padding: 4px 8px;
   background: #f0f0f0;
   border: 1px solid #ccc;
@@ -27,7 +31,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-family: monospace;
-  font-size: .81rem;
+  font-size: 0.81rem;
   resize: vertical;
   min-height: 100px;
 }

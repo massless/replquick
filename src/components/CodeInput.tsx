@@ -100,7 +100,22 @@ export function CodeInput({
     <div className="code-input-container">
       <div className="history-toggle">
         <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
-          {showHistory ? "Hide History" : "Show History"}
+          <svg
+            fill="none"
+            strokeWidth="2"
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 8l0 4l2 2"></path>
+            <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+          </svg>
+          History
         </button>
       </div>
 
