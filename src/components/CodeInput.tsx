@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { HistoryPanel } from "./HistoryPanel";
 import { useIsMobile } from "../hooks/useIsMobile";
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { vscodeDark } from '@uiw/codemirror-theme-vscode';
-import { githubLight } from '@uiw/codemirror-theme-github';
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { githubLight } from "@uiw/codemirror-theme-github";
+import { EditorView } from "@codemirror/view";
 import "./CodeInput.css";
 
 interface CodeInputProps {
@@ -36,6 +37,48 @@ export function CodeInput({
   const [showHistory, setShowHistory] = useState(false);
   const _isMobile = useIsMobile();
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+  const editorRef = useRef<EditorView | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: Event) => {
+      const keyboardEvent = event as KeyboardEvent;
+      if (keyboardEvent.key === "Enter" && keyboardEvent.shiftKey) {
+        console.log("[CodeInput] Shift+Enter pressed");
+        keyboardEvent.preventDefault();
+        keyboardEvent.stopPropagation();
+
+        // Get the editor instance
+        const editorElement = document.querySelector('.cm-editor');
+        if (editorElement) {
+          const view = (editorElement as any).cmView as EditorView;
+          if (view) {
+            // Prevent the default newline insertion by dispatching an empty transaction
+            view.dispatch({
+              changes: {
+                from: view.state.selection.main.head,
+                to: view.state.selection.main.head,
+                insert: ""
+              },
+              selection: {
+                anchor: view.state.selection.main.head,
+                head: view.state.selection.main.head
+              }
+            });
+          }
+        }
+
+        onSubmit();
+      }
+    };
+
+    const editorElement = document.querySelector('.cm-editor');
+    if (editorElement) {
+      editorElement.addEventListener('keydown', handleKeyDown, { capture: true });
+      return () => {
+        editorElement.removeEventListener('keydown', handleKeyDown, { capture: true });
+      };
+    }
+  }, [onSubmit]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -104,11 +147,12 @@ export function CodeInput({
         <CodeMirror
           value={value}
           height="100%"
+          extensions={[javascript({ jsx: true })]}
           theme={isDarkMode ? vscodeDark : githubLight}
-          extensions={[javascript()]}
           onChange={(v) => {
-            // Normalize line endings to \n and remove any trailing newlines
-            const normalizedValue = v.replace(/\r\n/g, '\n').replace(/\n+$/, '');
+            const normalizedValue = v
+              .replace(/\r\n/g, "\n")
+              .replace(/\n+$/, "");
             onChange(normalizedValue);
           }}
           placeholder="Enter some JavaScript code here..."

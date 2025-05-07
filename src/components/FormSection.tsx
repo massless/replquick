@@ -48,7 +48,7 @@ export function FormSection({
             className="submit-button"
             disabled={loading}
           >
-            {loading ? "Evaluating..." : "Evaluate"}
+            {loading ? "Evaluating..." : "⚡ Evaluate"}
           </button>
           <button
             type="button"
