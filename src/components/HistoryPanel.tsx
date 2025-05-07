@@ -2,6 +2,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus, prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { createPortal } from "react-dom";
 import "./HistoryPanel.css";
+import React from 'react';
 
 interface EvaluationHistory {
   id: number;
@@ -15,6 +16,7 @@ interface HistoryPanelProps {
   onHistorySelect: (index: number) => void;
   triggerRect: DOMRect | null;
   isDarkMode: boolean;
+  onClose: () => void;
 }
 
 export function HistoryPanel({
@@ -23,6 +25,7 @@ export function HistoryPanel({
   onHistorySelect,
   triggerRect,
   isDarkMode,
+  onClose,
 }: HistoryPanelProps) {
   if (!triggerRect) return null;
 
@@ -37,6 +40,17 @@ export function HistoryPanel({
     console.log('[HistoryPanel] History item clicked:', index); // Debug log
     onHistorySelect(index);
   };
+
+  // Add ESC key handler
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   return createPortal(
     <div className="history-panel" style={panelStyle}>

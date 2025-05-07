@@ -143,6 +143,7 @@ export function CodeInput({
           onHistorySelect={handleHistorySelect}
           triggerRect={buttonRect}
           isDarkMode={isDarkMode}
+          onClose={() => setShowHistory(false)}
         />
       )}
 
