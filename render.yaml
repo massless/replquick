@@ -7,6 +7,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+    nodeVersion: 20.x
+    healthCheckPath: /eval
+    autoDeploy: true
 
   - type: web
     name: replquick-frontend
