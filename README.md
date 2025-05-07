@@ -55,7 +55,7 @@ Evaluates JavaScript code and returns the serialized result.
 Request:
 ```json
 {
-  "code": "({obj: {x: 1+1,foo: "bar",baz: true,arr: [1,2,3,{ hello: "world" }]}})",
+  "code": "({obj: {x: 1+1,foo: \"bar\",baz: true,arr: [1,2,3,{ hello: \"world\" }]}})",
   "sessionId": "my-session"
 }
 ```
