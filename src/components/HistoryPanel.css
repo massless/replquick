@@ -14,6 +14,8 @@
 }
 
 .history-item {
+  display: flex;
+  gap: 1em;
   padding: 8px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
@@ -30,10 +32,11 @@
 }
 
 .history-item .timestamp {
-  color: #666;
-  font-size: 0.8em;
-  margin: 4px;
   display: block;
+  width: 68px;
+  color: #666;
+  font-size: 0.73em;
+  margin: 4px;
 }
 
 .history-item pre {

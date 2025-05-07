@@ -21,12 +21,13 @@
   background: #e0e0e0;
 }
 
-.input {
+.code-input-container .input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-family: monospace;
+  font-size: .81rem;
   resize: vertical;
   min-height: 100px;
 }
