@@ -32,8 +32,49 @@ app.use(express.static(path.join(__dirname, '../dist')));
 const sessions = new Map<string, Record<string, unknown>>();
 
 // Root route handler
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+app.post('/create-session', (_req, res) => {
+  try {
+    // Generate a random session ID
+    const sessionId = Math.random().toString(36).substring(2, 15);
+
+    // Initialize empty session context
+    sessions.set(sessionId, {});
+
+    res.json({
+      success: true,
+      sessionId,
+      message: 'New session created successfully'
+    });
+  } catch (error) {
+    console.error('Error creating session:', error);
+    res.status(500).json({ error: 'Failed to create new session' });
+  }
+});
+
+app.post('/clear-session', (req, res) => {
+  try {
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      res.status(400).json({ error: 'Session ID is required' });
+      return;
+    }
+
+    // Clear the session context by setting it to an empty object
+    sessions.set(sessionId, {});
+
+    res.json({
+      success: true,
+      message: 'Session context cleared successfully'
+    });
+  } catch (error) {
+    console.error('Error clearing session:', error);
+    res.status(500).json({ error: 'Failed to clear session context' });
+  }
 });
 
 app.post('/eval', (req, res) => {
@@ -84,6 +125,31 @@ app.post('/eval', (req, res) => {
     };
 
     res.json(response);
+  }
+});
+
+app.get('/current-session', (req, res) => {
+  try {
+    // Get session ID from query parameters or headers
+    const sessionId = req.query.sessionId as string || req.headers['x-session-id'] as string;
+
+    if (!sessionId) {
+      res.json({ sessionId: null });
+      return;
+    }
+
+    // Check if session exists
+    const sessionExists = sessions.has(sessionId);
+
+    if (!sessionExists) {
+      res.json({ sessionId: null });
+      return;
+    }
+
+    res.json({ sessionId });
+  } catch (error) {
+    console.error('Error getting current session:', error);
+    res.status(500).json({ error: 'Failed to get current session' });
   }
 });
 

@@ -20,12 +20,36 @@ function App() {
   const [result, setResult] = useState<EvalResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState<string>("");
+  const [sessionId, setSessionId] = useState<string>(localStorage.getItem('sessionId') || "");
   const [history, setHistory] = useState<EvaluationHistory[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
   const [activeTab, setActiveTab] = useState<'debug' | 'interactive'>('interactive');
 
-  // Initialize IndexedDB
+  // Get current session ID
+  const getCurrentSession = async () => {
+    try {
+      const response = await fetch(`${API_URL ? API_URL : ""}/current-session`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-session-id": sessionId || "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get current session");
+      }
+
+      const data = await response.json();
+      if (data.sessionId) {
+        setSessionId(data.sessionId);
+      }
+    } catch (err) {
+      console.error("Error getting current session:", err);
+    }
+  };
+
+  // Initialize IndexedDB and get current session
   useEffect(() => {
     const initDB = async () => {
       const request = indexedDB.open(DB_NAME, 1);
@@ -51,6 +75,13 @@ function App() {
     };
 
     initDB();
+    // Try to get sessionId from localStorage first
+    const storedSessionId = localStorage.getItem('sessionId');
+    if (storedSessionId) {
+      setSessionId(storedSessionId);
+    } else {
+      getCurrentSession();
+    }
   }, []);
 
   const loadHistory = async (db: IDBDatabase) => {
@@ -78,6 +109,14 @@ function App() {
     await loadHistory(db);
   };
 
+  const clearHistory = async () => {
+    const db = await openDB();
+    const transaction = db.transaction([STORE_NAME], "readwrite");
+    const store = transaction.objectStore(STORE_NAME);
+    store.clear();
+    await loadHistory(db);
+  };
+
   const openDB = (): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, 1);
@@ -102,7 +141,7 @@ function App() {
   };
 
   const handleSubmitWithCode = async (code: string) => {
-    console.log("[App] handleSubmitWithCode", { code });
+    console.log("[App] handleSubmitWithCode", { code, sessionId });
     setLoading(true);
     setError(null);
 
@@ -129,6 +168,7 @@ function App() {
       // Update session ID if it's a new session
       if (!sessionId && data.sessionId) {
         setSessionId(data.sessionId);
+        localStorage.setItem('sessionId', data.sessionId);
       }
       // Only store in history if evaluation was successful
       await addToHistory(code);
@@ -143,10 +183,52 @@ function App() {
     handleSubmitWithCode(inputValue);
   };
 
-  const handleNewSession = () => {
-    setSessionId("");
-    setResult(null);
-    setError(null);
+  const handleNewSession = async () => {
+    console.log("[App] handleNewSession", { sessionId });
+
+    // First clear the current session
+    try {
+      const response = await fetch(`${API_URL ? API_URL : ""}/clear-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sessionId: sessionId || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to clear the old session");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to clear session");
+    }
+
+    try {
+      const response = await fetch(`${API_URL ? API_URL : ""}/create-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create new session");
+      }
+
+      const data = await response.json();
+      setSessionId(data.sessionId);
+      localStorage.setItem('sessionId', data.sessionId);
+      // TODO: Clear the history
+      setHistory([]);
+      setCurrentHistoryIndex(-1);
+      await clearHistory();
+      setResult(null);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create new session");
+    }
   };
 
   return (

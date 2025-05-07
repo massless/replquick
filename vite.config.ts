@@ -9,7 +9,27 @@ export default defineConfig({
     proxy: {
       '/eval': {
         target: process.env.VITE_API_URL || 'http://localhost:3000',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      },
+      '/create-session': {
+        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      },
+      '/clear-session': {
+        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      },
+      '/current-session': {
+        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        ws: true
       }
     }
   },
