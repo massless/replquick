@@ -275,6 +275,7 @@ function App() {
         sessionId={sessionId}
         isDarkMode={isDarkMode}
         onToggleDarkMode={handleToggleDarkMode}
+        history={history}
       />
     </div>
   );

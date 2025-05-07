@@ -26,7 +26,7 @@
 .modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
@@ -93,7 +93,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #f6c640;
   transition: .4s;
   border-radius: 34px;
 }
@@ -116,4 +116,132 @@ input:checked + .toggle-slider {
 
 input:checked + .toggle-slider:before {
   transform: translateX(26px);
+}
+
+.settings-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-top: 0.5em;
+}
+
+.session-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.95em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.session-id-label {
+  color: var(--text-secondary, #888);
+  font-weight: 500;
+}
+.session-id-value {
+  font-family: monospace;
+  max-width: 8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.copy-session-id {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #888);
+  cursor: pointer;
+  padding: 0 0.2em;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.copy-session-id:hover {
+  color: var(--accent, #007bff);
+}
+
+.eval-count-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.95em;
+}
+.eval-count {
+  color: var(--text-secondary, #888);
+}
+.badge {
+  font-size: 1.2em;
+  margin-left: 0.2em;
+}
+.badge-gold {
+  filter: drop-shadow(0 0 2px gold);
+}
+.badge-silver {
+  filter: drop-shadow(0 0 2px silver);
+}
+.badge-bronze {
+  filter: drop-shadow(0 0 2px #cd7f32);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1em;
+  cursor: pointer;
+}
+.icon-sun, .icon-moon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
+}
+.icon-sun {
+  color: #f6c640;
+}
+.icon-moon {
+  color: #2196f3;
+}
+.toggle-text {
+  min-width: 70px;
+  text-align: center;
+}
+
+.clear-data-button {
+  margin-left: auto;
+  margin-right: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: background 0.2s, color 0.2s;
+}
+.clear-data-button:hover {
+  background: #b52a37;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 0.5em;
+  border-top: 1px solid var(--border-color);
+  margin-top: 1em;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95vw;
+    min-width: unset;
+    max-width: 98vw;
+    padding: 1em;
+  }
+  .settings-meta {
+    flex-direction: column;
+    gap: 0.3em;
+  }
+  .session-info, .eval-count-badge {
+    font-size: 0.92em;
+  }
+  .clear-data-button {
+    font-size: 0.95em;
+    padding: 4px 8px;
+  }
 }
