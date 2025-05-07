@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import "./WelcomeModal.css";
 
 interface WelcomeModalProps {
@@ -34,10 +36,27 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
         <p className="modal-slogan">A quick JavaScript playground</p>
 
         <div className="modal-body">
-          <ul>
-            <li>✨ Write and evaluate JavaScript code instantly</li>
-            <li>💾 Debug, save and revisit your code history anytime</li>
-          </ul>
+          <div className="debug-view">
+            <SyntaxHighlighter
+              language="json"
+              style={tomorrow}
+              customStyle={{
+                margin: 0,
+                borderRadius: "4px",
+                padding: "1rem",
+              }}
+            >
+              {JSON.stringify(
+                {
+                  write: "console.log('Evaluate JavaScript code instantly.')",
+                  rewrite:
+                    "console.log('Debug, save and revisit your code history anytime.')",
+                },
+                null,
+                2
+              )}
+            </SyntaxHighlighter>
+          </div>
         </div>
 
         <button className="modal-button" onClick={onClose}>
