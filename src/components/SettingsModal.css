@@ -43,6 +43,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
+}
+
+.close-button:focus,
+.close-button:focus-visible {
+  outline: none;
 }
 
 .setting-item {
@@ -69,6 +75,12 @@
   opacity: 0;
   width: 0;
   height: 0;
+  outline: none;
+}
+
+.toggle-switch input:focus,
+.toggle-switch input:focus-visible {
+  outline: none;
 }
 
 .toggle-slider {

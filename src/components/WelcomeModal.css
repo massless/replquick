@@ -36,10 +36,16 @@
   padding: 0.5rem;
   line-height: 1;
   transition: color 0.2s;
+  outline: none;
 }
 
 .modal-close:hover {
   color: #333;
+}
+
+.modal-close:focus,
+.modal-close:focus-visible {
+  outline: none;
 }
 
 .modal-logo {
@@ -140,11 +146,17 @@
   font-weight: 600;
   transition: transform 0.2s, box-shadow 0.2s;
   letter-spacing: 0.5px;
+  outline: none;
 }
 
 .modal-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.modal-button:focus,
+.modal-button:focus-visible {
+  outline: none;
 }
 
 @keyframes fadeIn {

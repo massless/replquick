@@ -20,6 +20,12 @@
   border-radius: 4px;
   cursor: pointer;
   color: var(--text-color);
+  outline: none;
+}
+
+.history-toggle button:focus,
+.history-toggle button:focus-visible {
+  outline: none;
 }
 
 .history-toggle button:hover {

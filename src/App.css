@@ -504,10 +504,12 @@ button {
   background-color: var(--button-bg);
   color: var(--text-color);
   transition: background-color 0.2s;
+  outline: none;
 }
 
-button:hover {
-  background-color: var(--button-hover);
+button:focus,
+button:focus-visible {
+  outline: none;
 }
 
 .submit-button {
