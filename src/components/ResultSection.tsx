@@ -62,7 +62,6 @@ export function ResultSection(props: ResultSectionProps) {
             width: 6,
             cursor: "ew-resize",
             zIndex: 10,
-            background: "rgba(0,0,0,0.05)",
           }}
         />
       )}
