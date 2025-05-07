@@ -3,6 +3,7 @@ import { EvalResponse } from "./types";
 import { DebugView } from "./components/DebugView";
 import { InteractiveView } from "./components/InteractiveView";
 import { CodeInput } from "./components/CodeInput";
+import { WelcomeModal } from "./components/WelcomeModal";
 import "./App.css";
 
 interface EvaluationHistory {
@@ -24,6 +25,7 @@ function App() {
   const [history, setHistory] = useState<EvaluationHistory[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
   const [activeTab, setActiveTab] = useState<'debug' | 'interactive'>('interactive');
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   // Initialize IndexedDB and get current session
   useEffect(() => {
@@ -55,6 +57,12 @@ function App() {
     const storedSessionId = localStorage.getItem('sessionId');
     if (storedSessionId) {
       setSessionId(storedSessionId);
+    }
+
+    // Check if this is the user's first visit
+    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    if (!hasVisitedBefore) {
+      setShowWelcomeModal(true);
     }
   }, []);
 
@@ -204,6 +212,11 @@ function App() {
     }
   };
 
+  const handleCloseWelcomeModal = () => {
+    setShowWelcomeModal(false);
+    localStorage.setItem('hasVisitedBefore', 'true');
+  };
+
   return (
     <div className="app-container">
       <h1>Replquick</h1>
@@ -272,6 +285,11 @@ function App() {
           </div>
         )}
       </div>
+
+      <WelcomeModal
+        isOpen={showWelcomeModal}
+        onClose={handleCloseWelcomeModal}
+      />
     </div>
   );
 }
