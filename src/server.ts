@@ -44,6 +44,7 @@ app.post('/create-session', (_req, res) => {
     // Initialize empty session context
     sessions.set(sessionId, {});
 
+    console.log("[Server] Created session:", sessionId);
     res.json({
       success: true,
       sessionId,
@@ -65,6 +66,7 @@ app.post('/clear-session', (req, res) => {
     }
 
     // Clear the session context by setting it to an empty object
+    console.log("[Server] Clearing session:", sessionId);
     sessions.set(sessionId, {});
 
     res.json({
@@ -113,6 +115,7 @@ app.post('/eval', (req, res) => {
       serialized: serializer.getSerialized()
     };
 
+    console.log("[Server] Evaluation successful:", sessionId);
     res.json(response);
   } catch (error) {
     console.error('Evaluation error:', error);
