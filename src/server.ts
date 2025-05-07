@@ -10,6 +10,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
+// Add error logging middleware
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: err.message });
+});
+
 // Serve static files from the dist directory
 app.use(express.static(path.join(__dirname, '../dist')));
 
@@ -59,6 +65,7 @@ app.post('/eval', (req, res) => {
 
     res.json(response);
   } catch (error) {
+    console.error('Evaluation error:', error);
     const serializer = new Serializer();
     const rootId = serializer.serialize(error);
 
