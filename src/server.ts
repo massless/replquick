@@ -3,6 +3,7 @@ import * as vm from "node:vm";
 import express, { Request, Response, NextFunction, response } from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
+import cors from "cors";
 import type { EvalRequestBody, EvalResponse } from "./types.js";
 import { Serializer } from "./serializer.js";
 
@@ -149,6 +150,16 @@ app.use(
     store: new session.MemoryStore() // Always use MemoryStore
   })
 );
+
+// Configure CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === "production"
+    ? process.env.FRONTEND_URL || "https://replquick.onrender.com"
+    : "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 app.use(bodyParser.json());
 
