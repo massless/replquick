@@ -23,25 +23,34 @@
 }
 
 /* CodeMirror customizations */
-.code-editor-wrapper :global(.cm-editor) {
+.code-editor-wrapper .cm-editor {
   height: 100%;
   font-family: 'Fira Code', 'Consolas', monospace;
 }
 
-.code-editor-wrapper :global(.cm-editor.cm-focused) {
+/* .code-editor-wrapper .cm-editor.cm-focused {
   outline: none;
 }
 
-.code-editor-wrapper :global(.cm-lineNumbers) {
+.code-editor-wrapper .cm-lineNumbers {
   min-width: 3.5em;
 }
 
-.code-editor-wrapper :global(.cm-content) {
-  padding: 1rem 0;
+.code-editor-wrapper .cm-content {
+  padding: 0;
 }
 
-.code-editor-wrapper :global(.cm-line) {
+.code-editor-wrapper .cm-line {
   padding: 0 1rem;
+} */
+
+/* Placeholder text styling */
+.code-editor-wrapper .cm-placeholder {
+  font-size: 0.85em;
+    opacity: 0.7;
+    color: var(--placeholder-color, #666);
+    display: inline-block;
+    margin-top: 3px;
 }
 
 /* Dark mode styles */

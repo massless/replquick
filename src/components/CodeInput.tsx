@@ -4,7 +4,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { githubLight } from "@uiw/codemirror-theme-github";
-import { EditorView } from "@codemirror/view";
+import { EditorView, placeholder } from "@codemirror/view";
 import "./CodeInput.css";
 
 interface CodeInputProps {
@@ -144,7 +144,10 @@ export function CodeInput({
         <CodeMirror
           value={value}
           height="100%"
-          extensions={[javascript({ jsx: true })]}
+          extensions={[
+            javascript({ jsx: true }),
+            placeholder("Enter some JavaScript code here...")
+          ]}
           theme={isDarkMode ? vscodeDark : githubLight}
           onChange={(v) => {
             const normalizedValue = v
@@ -152,10 +155,9 @@ export function CodeInput({
               .replace(/\n+$/, "");
             onChange(normalizedValue);
           }}
-          placeholder="Enter some JavaScript code here..."
           basicSetup={{
             lineNumbers: true,
-            highlightActiveLineGutter: true,
+            highlightActiveLineGutter: value.trim().length > 0,
             highlightSpecialChars: true,
             foldGutter: true,
             drawSelection: true,
@@ -168,7 +170,7 @@ export function CodeInput({
             autocompletion: true,
             rectangularSelection: true,
             crosshairCursor: true,
-            highlightActiveLine: true,
+            highlightActiveLine: value.trim().length > 0,
             highlightSelectionMatches: true,
             closeBracketsKeymap: true,
             searchKeymap: true,
