@@ -56,6 +56,7 @@ body {
 .app-container h1 {
   margin: 0;
   font-size: 1.5rem;
+  padding: 0;
 }
 
 .logo {
@@ -379,7 +380,7 @@ body {
 .main-content {
   display: flex;
   gap: 1.2rem;
-  margin-top: 2rem;
+  margin-top: 1.2rem;
   height: calc(100% - 2rem);
   overflow: hidden;
 }
@@ -554,4 +555,26 @@ button:hover {
 
 .settings-button:hover {
   background-color: var(--button-hover);
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.app-title .logo {
+  height: 3.5rem;
+  width: auto;
+  padding: 0;
+  background: #1f1e1e;
+  box-shadow: none;
+  border-radius: 100%;
+}
+
+.app-title .wordmark {
+  height: 2rem;
+  width: auto;
 }

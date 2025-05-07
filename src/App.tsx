@@ -22,21 +22,28 @@ function App() {
   const [result, setResult] = useState<EvalResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState<string>(localStorage.getItem('sessionId') || "");
+  const [sessionId, setSessionId] = useState<string>(
+    localStorage.getItem("sessionId") || ""
+  );
   const [history, setHistory] = useState<EvaluationHistory[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
-  const [activeTab, setActiveTab] = useState<'debug' | 'interactive'>('interactive');
+  const [activeTab, setActiveTab] = useState<"debug" | "interactive">(
+    "interactive"
+  );
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark' || !savedTheme; // Default to dark mode if no theme is saved
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark" || !savedTheme; // Default to dark mode if no theme is saved
   });
 
   // Initialize theme
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDarkMode ? "dark" : "light"
+    );
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
   // Initialize IndexedDB and get current session
@@ -66,13 +73,13 @@ function App() {
 
     initDB();
     // Try to get sessionId from localStorage first
-    const storedSessionId = localStorage.getItem('sessionId');
+    const storedSessionId = localStorage.getItem("sessionId");
     if (storedSessionId) {
       setSessionId(storedSessionId);
     }
 
     // Check if this is the user's first visit
-    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
     if (!hasVisitedBefore) {
       setShowWelcomeModal(true);
     }
@@ -162,7 +169,7 @@ function App() {
       // Update session ID if it's a new session
       if (!sessionId && data.sessionId) {
         setSessionId(data.sessionId);
-        localStorage.setItem('sessionId', data.sessionId);
+        localStorage.setItem("sessionId", data.sessionId);
       }
       // Only store in history if evaluation was successful
       await addToHistory(code);
@@ -194,20 +201,22 @@ function App() {
 
       const data = await response.json();
       setSessionId(data.sessionId);
-      localStorage.setItem('sessionId', data.sessionId);
+      localStorage.setItem("sessionId", data.sessionId);
       setHistory([]);
       setCurrentHistoryIndex(-1);
       await clearHistory();
       setResult(null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create new session");
+      setError(
+        err instanceof Error ? err.message : "Failed to create new session"
+      );
     }
   };
 
   const handleCloseWelcomeModal = () => {
     setShowWelcomeModal(false);
-    localStorage.setItem('hasVisitedBefore', 'true');
+    localStorage.setItem("hasVisitedBefore", "true");
   };
 
   const handleToggleDarkMode = () => {
@@ -221,10 +230,24 @@ function App() {
         onClick={() => setShowSettingsModal(true)}
         title="Settings"
       >
-        ⚙️
+        <svg
+          fill="currentColor"
+          strokeWidth="0"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          height="1em"
+          width="1em"
+        >
+          <path
+            fill="currentColor"
+            d="m12 1 9.5 5.5v11L12 23l-9.5-5.5v-11L12 1Zm0 2.311L4.5 7.653v8.694l7.5 4.342 7.5-4.342V7.653L12 3.311ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+          ></path>
+        </svg>
       </button>
 
-      <h1>Replquick</h1>
+      <h1 className="app-title">
+        <img src="/logo.svg" alt="Logo" className="logo" />
+      </h1>
 
       <div className="main-content">
         <div className="form-section">
@@ -268,20 +291,24 @@ function App() {
           <div className="result-section">
             <div className="tabs">
               <button
-                className={`tab-button ${activeTab === 'interactive' ? 'active' : ''}`}
-                onClick={() => setActiveTab('interactive')}
+                className={`tab-button ${
+                  activeTab === "interactive" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("interactive")}
               >
                 Result
               </button>
               <button
-                className={`tab-button ${activeTab === 'debug' ? 'active' : ''}`}
-                onClick={() => setActiveTab('debug')}
+                className={`tab-button ${
+                  activeTab === "debug" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("debug")}
               >
                 Debug
               </button>
             </div>
             <div className="tab-content">
-              {activeTab === 'debug' ? (
+              {activeTab === "debug" ? (
                 <DebugView data={result} />
               ) : (
                 <InteractiveView data={result} />
