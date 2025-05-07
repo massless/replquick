@@ -174,8 +174,8 @@ app.use(
         })
       : new session.MemoryStore(),
     secret: process.env.SESSION_SECRET || "a-very-secret-key",
-    resave: true, // Changed to true to ensure session is saved
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     rolling: true, // Refresh session on activity
     cookie: {
       secure: process.env.NODE_ENV === "production",
@@ -211,14 +211,14 @@ const evaluator = new SessionEvaluator();
 
 // API endpoint to evaluate JavaScript code
 app.post("/eval", (req: Request, res: Response) => {
-  const { code } = req.body as EvalRequestBody;
+  const { code, sessionId: clientSessionId } = req.body as EvalRequestBody;
 
   if (!code) {
     return res.status(400).json({ error: "No code provided" });
   }
 
-  // Use the session ID to maintain context
-  const sessionId = req.session.id;
+  // Use the client's session ID if provided, otherwise use the server's session ID
+  const sessionId = clientSessionId || req.session.id;
 
   // Evaluate the code in the session's context
   const evaluated = evaluator.evaluate(sessionId, code);
@@ -231,6 +231,7 @@ app.post("/eval", (req: Request, res: Response) => {
   const response: EvalResponse = {
     root: rootId,
     serialized: serializer.getSerialized(),
+    sessionId
   };
 
   console.log("[Server] Evaluation successful:", sessionId);

@@ -15,4 +15,5 @@ export interface SerializedValue {
 export interface EvalResponse {
   root: string
   serialized: Record<string, SerializedValue>
+  sessionId?: string
 }
