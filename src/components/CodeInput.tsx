@@ -1,11 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { HistoryPanel } from "./HistoryPanel";
 import "./CodeInput.css";
-
-// Register the language
-SyntaxHighlighter.registerLanguage("javascript", js);
 
 interface CodeInputProps {
   value: string;
@@ -31,8 +26,10 @@ export function CodeInput({
   currentHistoryIndex,
 }: CodeInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -43,18 +40,40 @@ export function CodeInput({
     checkMobile();
 
     // Add listener for window resize
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
     // Cleanup
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      // Don't close if clicking on the button or a history item
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(target) &&
+        !target.closest(".history-item")
+      ) {
+        setShowHistory(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (showHistory && buttonRef.current) {
+      setButtonRect(buttonRef.current.getBoundingClientRect());
+    } else {
+      setButtonRect(null);
+    }
+  }, [showHistory]);
 
   const handleHistorySelect = (index: number) => {
     onHistorySelect(index, () => {
-      // Only hide history on mobile devices
-      if (isMobile) {
-        setShowHistory(false);
-      }
+      setShowHistory(false);
     });
   };
 
@@ -80,41 +99,18 @@ export function CodeInput({
   return (
     <div className="code-input-container">
       <div className="history-toggle">
-        <button onClick={() => setShowHistory(!showHistory)}>
+        <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
           {showHistory ? "Hide History" : "Show History"}
         </button>
       </div>
 
       {showHistory && (
-        <div className="history-view">
-          {history.map((item, index) => (
-            <div
-              key={item.id}
-              className={`history-item ${
-                index === currentHistoryIndex ? "current" : ""
-              }`}
-              onClick={() => handleHistorySelect(index)}
-            >
-              <span className="timestamp">
-                {new Date(item.timestamp).toLocaleTimeString()}
-              </span>
-              <SyntaxHighlighter
-                language="json"
-                style={docco}
-                customStyle={{
-                  margin: 0,
-                  padding: 0,
-                  background: "transparent",
-                  textAlign: "left",
-                }}
-                wrapLines={true}
-                wrapLongLines={true}
-              >
-                {item.code}
-              </SyntaxHighlighter>
-            </div>
-          ))}
-        </div>
+        <HistoryPanel
+          history={history}
+          currentHistoryIndex={currentHistoryIndex}
+          onHistorySelect={handleHistorySelect}
+          triggerRect={buttonRect}
+        />
       )}
 
       <textarea
