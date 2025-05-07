@@ -14,7 +14,11 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@uiw/codemirror-theme-github": "^4.23.12",
+    "@uiw/codemirror-theme-vscode": "^4.23.12",
+    "@uiw/react-codemirror": "^4.23.12",
     "connect-redis": "^8.0.3",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",

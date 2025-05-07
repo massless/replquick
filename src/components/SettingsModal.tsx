@@ -39,9 +39,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               width="1em"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="m7.116 8-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </button>

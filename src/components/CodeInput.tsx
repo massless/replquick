@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { HistoryPanel } from "./HistoryPanel";
 import { useIsMobile } from "../hooks/useIsMobile";
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { githubLight } from '@uiw/codemirror-theme-github';
 import "./CodeInput.css";
 
 interface CodeInputProps {
@@ -28,28 +32,14 @@ export function CodeInput({
   currentHistoryIndex,
   isDarkMode,
 }: CodeInputProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
   const _isMobile = useIsMobile();
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
-  const adjustTextareaHeight = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  };
-
-  useEffect(() => {
-    adjustTextareaHeight();
-  }, [value]);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      // Don't close if clicking on the button or a history item
       if (
         buttonRef.current &&
         !buttonRef.current.contains(target) &&
@@ -75,25 +65,6 @@ export function CodeInput({
     onHistorySelect(index, () => {
       setShowHistory(false);
     });
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "ArrowUp" && e.ctrlKey) {
-      e.preventDefault();
-      if (currentHistoryIndex < history.length - 1) {
-        handleHistorySelect(currentHistoryIndex + 1);
-      }
-    } else if (e.key === "ArrowDown" && e.ctrlKey) {
-      e.preventDefault();
-      if (currentHistoryIndex > 0) {
-        handleHistorySelect(currentHistoryIndex - 1);
-      } else if (currentHistoryIndex === 0) {
-        handleHistorySelect(-1);
-      }
-    } else if (e.key === "Enter" && e.ctrlKey) {
-      e.preventDefault();
-      onSubmit();
-    }
   };
 
   return (
@@ -129,15 +100,43 @@ export function CodeInput({
         />
       )}
 
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Enter JavaScript code to evaluate..."
-        className="input"
-        style={{ minHeight: '100px', overflow: 'hidden' }}
-      />
+      <div className="code-editor-wrapper">
+        <CodeMirror
+          value={value}
+          height="100%"
+          theme={isDarkMode ? vscodeDark : githubLight}
+          extensions={[javascript()]}
+          onChange={(v) => {
+            // Normalize line endings to \n and remove any trailing newlines
+            const normalizedValue = v.replace(/\r\n/g, '\n').replace(/\n+$/, '');
+            onChange(normalizedValue);
+          }}
+          placeholder="Enter JavaScript code to evaluate..."
+          basicSetup={{
+            lineNumbers: true,
+            highlightActiveLineGutter: true,
+            highlightSpecialChars: true,
+            foldGutter: true,
+            drawSelection: true,
+            dropCursor: true,
+            allowMultipleSelections: true,
+            indentOnInput: true,
+            syntaxHighlighting: true,
+            bracketMatching: true,
+            closeBrackets: true,
+            autocompletion: true,
+            rectangularSelection: true,
+            crosshairCursor: true,
+            highlightActiveLine: true,
+            highlightSelectionMatches: true,
+            closeBracketsKeymap: true,
+            searchKeymap: true,
+            foldKeymap: true,
+            completionKeymap: true,
+            lintKeymap: true,
+          }}
+        />
+      </div>
     </div>
   );
 }

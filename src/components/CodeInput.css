@@ -1,12 +1,7 @@
 .code-input-container {
   position: relative;
   width: 100%;
-}
-
-.history-toggle {
-  margin-bottom: 8px;
-  position: relative;
-  z-index: 2;
+  height: 100%;
 }
 
 .history-toggle button {
@@ -17,48 +12,39 @@
   padding: 4px 8px;
   background: var(--button-bg);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--text-color);
-  outline: none;
 }
 
-.history-toggle button:focus,
-.history-toggle button:focus-visible {
-  outline: none;
-}
-
-.history-toggle button:hover {
-  background: var(--button-hover);
-}
-
-.history-toggle button svg {
-  color: var(--text-color);
-}
-
-.code-input-container .input {
+.code-editor-wrapper {
+  position: relative;
   width: 100%;
-  padding: 8px;
-  border: 1px solid var(--border-color);
+  height: 100%;
   border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.81rem;
-  resize: vertical;
-  min-height: 100px;
-  background-color: var(--input-bg);
-  color: var(--text-color);
+  overflow: hidden;
 }
 
-.input:focus {
+/* CodeMirror customizations */
+.code-editor-wrapper :global(.cm-editor) {
+  height: 100%;
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+.code-editor-wrapper :global(.cm-editor.cm-focused) {
   outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
 }
 
-@media screen and (max-width: 768px) {
-  .input {
-    width: 100%;
-    max-width: 100%;
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
+.code-editor-wrapper :global(.cm-lineNumbers) {
+  min-width: 3.5em;
+}
+
+.code-editor-wrapper :global(.cm-content) {
+  padding: 1rem 0;
+}
+
+.code-editor-wrapper :global(.cm-line) {
+  padding: 0 1rem;
+}
+
+/* Dark mode styles */
+.dark-mode .code-editor-wrapper {
+  border-color: #444;
 }
