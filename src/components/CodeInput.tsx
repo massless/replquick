@@ -12,7 +12,7 @@ interface CodeInputProps {
   onChange: (value: string) => void;
   onSubmit: () => void;
   history: EvaluationHistory[];
-  onHistorySelect: (index: number) => void;
+  onHistorySelect: (index: number, hideHistory: () => void) => void;
   currentHistoryIndex: number;
 }
 
@@ -37,14 +37,14 @@ export function CodeInput({
     if (e.key === "ArrowUp" && e.ctrlKey) {
       e.preventDefault();
       if (currentHistoryIndex < history.length - 1) {
-        onHistorySelect(currentHistoryIndex + 1);
+        onHistorySelect(currentHistoryIndex + 1, () => setShowHistory(false));
       }
     } else if (e.key === "ArrowDown" && e.ctrlKey) {
       e.preventDefault();
       if (currentHistoryIndex > 0) {
-        onHistorySelect(currentHistoryIndex - 1);
+        onHistorySelect(currentHistoryIndex - 1, () => setShowHistory(false));
       } else if (currentHistoryIndex === 0) {
-        onHistorySelect(-1);
+        onHistorySelect(-1, () => setShowHistory(false));
       }
     } else if (e.key === "Enter" && e.ctrlKey) {
       e.preventDefault();
@@ -68,7 +68,9 @@ export function CodeInput({
               className={`history-item ${
                 index === currentHistoryIndex ? "current" : ""
               }`}
-              onClick={() => onHistorySelect(index)}
+              onClick={() => {
+                onHistorySelect(index, () => setShowHistory(false));
+              }}
             >
               <span className="timestamp">
                 {new Date(item.timestamp).toLocaleTimeString()}

@@ -85,7 +85,7 @@ function App() {
     });
   };
 
-  const handleHistorySelect = (index: number) => {
+  const handleHistorySelect = (index: number, onSelect?: () => void) => {
     console.log("[App] handleHistorySelect", index);
     setCurrentHistoryIndex(index);
     if (index === -1) {
@@ -96,6 +96,8 @@ function App() {
       setActiveTab("interactive");
       handleSubmitWithCode(code);
     }
+    // Call the callback if provided (used to hide history panel)
+    onSelect?.();
   };
 
   const handleSubmitWithCode = async (code: string) => {
