@@ -18,6 +18,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const handleClearData = async () => {
+    if (window.confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+      // Clear localStorage
+      localStorage.clear();
+
+      // Clear IndexedDB
+      const databases = await window.indexedDB.databases();
+      databases.forEach(db => {
+        if (db.name) {
+          window.indexedDB.deleteDatabase(db.name);
+        }
+      });
+
+      // Reload the page to reset the application state
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -60,6 +78,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               />
               <span className="toggle-slider"></span>
             </div>
+          </div>
+          <div className="setting-item">
+            <button
+              className="clear-data-button"
+              onClick={handleClearData}
+              style={{
+                backgroundColor: '#dc3545',
+                color: 'white',
+                border: 'none',
+                padding: '8px 16px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                width: '100%'
+              }}
+            >
+              Clear All Data
+            </button>
           </div>
         </div>
       </div>
