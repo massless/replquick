@@ -13,13 +13,13 @@
 }
 
 .modal-content {
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  background: linear-gradient(135deg, #ffffff, #f1ab5afc);
   padding: 3rem;
   border-radius: 16px;
   max-width: 800px;
   width: 90%;
   position: relative;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(225, 69, 31, 0.15);
   animation: slideUp 0.4s ease-out;
   text-align: center;
 }
@@ -73,7 +73,7 @@
 
 .modal-slogan {
   font-size: 1.2rem;
-  color: #666;
+  color: #f36c08;
   margin-bottom: 2rem;
   font-weight: 500;
 }
@@ -103,9 +103,9 @@
   padding: 1.25rem;
   line-height: 120%;
   color: #333;
-  background: white;
+  background: #ffffff24;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgb(225 69 31 / 26%);
   transition: transform 0.2s, box-shadow 0.2s;
   font-size: 1.1rem;
   font-weight: 500;
@@ -121,7 +121,8 @@
 
 .modal-body li:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(225, 69, 31, 0.12);
+  border-color: rgba(225, 69, 31, 0.2);
 }
 
 .modal-body li::before {
