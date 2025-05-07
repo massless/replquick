@@ -13,6 +13,7 @@ interface EvaluationHistory {
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -106,7 +107,7 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch("/eval", {
+      const response = await fetch(`${API_URL ? API_URL : ""}/eval`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
