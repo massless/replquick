@@ -44,7 +44,6 @@ export const InteractiveView = ({ data }: InteractiveViewProps) => {
 
   return (
     <div className="interactive-view">
-      <h3>Interactive View</h3>
       <div style={{
         backgroundColor: '#f8f8f8',
         borderRadius: '4px',

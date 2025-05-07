@@ -9,7 +9,6 @@ interface DebugViewProps {
 export const DebugView = ({ data }: DebugViewProps) => {
   return (
     <div className="debug-view">
-      <h3>Debug View</h3>
       <SyntaxHighlighter
         language="json"
         style={tomorrow}
