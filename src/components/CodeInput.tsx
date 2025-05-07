@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { HistoryPanel } from "./HistoryPanel";
+import { useIsMobile } from "../hooks/useIsMobile";
 import "./CodeInput.css";
 
 interface CodeInputProps {
@@ -28,7 +29,7 @@ export function CodeInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const _isMobile = useIsMobile();
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
   const adjustTextareaHeight = () => {
@@ -42,21 +43,6 @@ export function CodeInput({
   useEffect(() => {
     adjustTextareaHeight();
   }, [value]);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-    };
-
-    // Check initially
-    checkMobile();
-
-    // Add listener for window resize
-    window.addEventListener("resize", checkMobile);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
