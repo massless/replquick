@@ -5,6 +5,8 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import type { EvalRequestBody, EvalResponse } from "./types.js";
 import { Serializer } from "./serializer.js";
+import { RedisStore } from "connect-redis";
+import { createClient } from "redis";
 
 // Extend the express session with our own properties
 declare module "express-session" {
@@ -136,15 +138,27 @@ class SessionEvaluator {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Create Redis client
+const redisClient = createClient({
+  url: process.env.REDIS_URL
+});
+
+// Handle Redis client errors
+redisClient.on('error', (err) => console.error('Redis Client Error:', err));
+
 // Configure session middleware
 app.use(
   session({
-    secret: "a-very-secret-key",
+    secret: process.env.SESSION_SECRET || "a-very-secret-key",
     resave: false,
     saveUninitialized: true,
     cookie: {
       secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     },
+    store: process.env.NODE_ENV === "production"
+      ? new RedisStore({ client: redisClient })
+      : new session.MemoryStore()
   })
 );
 
@@ -201,13 +215,15 @@ app.post("/session/create", (req: Request, res: Response) => {
 app.use((req: Request, _res: Response, next: NextFunction) => {
   const sessionId = req.session.id;
 
-  // Optional: Set up a listener for session destruction
+  // Set up cleanup for when the session is destroyed
   if (req.session && !req.session.touched) {
     req.session.touched = true;
-    // Using any here because the destroy event is not well-typed in the session types
-    (req.session as any).on("destroy", () => {
+    // Store the session ID in the session data for cleanup
+    const originalDestroy = req.session.destroy;
+    req.session.destroy = function(callback) {
       evaluator.clearContext(sessionId);
-    });
+      return originalDestroy.call(this, callback);
+    };
   }
 
   next();
