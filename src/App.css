@@ -304,6 +304,14 @@ h1 {
   margin-right: 0.5rem;
 }
 
+.interactive-view-toggle {
+  font-size: 0.81rem;
+  color: #b5c2cd;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
