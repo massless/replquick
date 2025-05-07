@@ -456,6 +456,10 @@ body {
   padding: 1em;
   border-radius: 8px;
   animation: slideInFromRight 0.3s ease-out forwards;
+  @media (max-width: 768px) {
+    animation: slideInFromBottom 0.3s ease-out forwards;
+    flex: 1;
+  }
 }
 
 .tabs {
@@ -499,6 +503,7 @@ body {
   .main-content {
     flex-direction: column;
     padding: 0 1em;
+    gap: 2em;
   }
 
   .form-section,
@@ -514,6 +519,11 @@ body {
     width: 100%;
     height: fit-content;
     flex: none;
+  }
+
+  .result-section {
+    width: auto;
+    padding: 1em;
   }
 }
 
@@ -629,4 +639,19 @@ button:focus-visible {
 .app-title .wordmark {
   height: 2rem;
   width: auto;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-bottom {
+  animation: slideInFromBottom 0.3s ease-out forwards !important;
 }
