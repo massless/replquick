@@ -13,24 +13,12 @@ export default defineConfig({
         secure: false,
         ws: true
       },
-      '/create-session': {
+      '/session/create': {
         target: process.env.VITE_API_URL || 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
         ws: true
       },
-      '/clear-session': {
-        target: process.env.VITE_API_URL || 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        ws: true
-      },
-      '/current-session': {
-        target: process.env.VITE_API_URL || 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        ws: true
-      }
     }
   },
   build: {

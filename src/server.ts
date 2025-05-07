@@ -179,6 +179,24 @@ app.post("/eval", (req: Request, res: Response) => {
   res.json(response);
 });
 
+// API endpoint to start a new session
+app.post("/session/create", (req: Request, res: Response) => {
+  // Regenerate the session ID to create a new session
+  req.session.regenerate((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to create new session" });
+    }
+
+    // Clear any existing context for this session
+    evaluator.clearContext(req.session.id);
+
+    res.json({
+      sessionId: req.session.id,
+      message: "New session created successfully"
+    });
+  });
+});
+
 // Clean up when a session expires
 app.use((req: Request, _res: Response, next: NextFunction) => {
   const sessionId = req.session.id;

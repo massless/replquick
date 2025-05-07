@@ -183,30 +183,30 @@ function App() {
     handleSubmitWithCode(inputValue);
   };
 
-  const _handleNewSession = async () => {
+  const handleNewSession = async () => {
     console.log("[App] handleNewSession", { sessionId });
 
     // First clear the current session
-    try {
-      const response = await fetch(`${API_URL ? API_URL : ""}/clear-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          sessionId: sessionId || undefined,
-        }),
-      });
+    // try {
+    //   const response = await fetch(`${API_URL ? API_URL : ""}/clear-session`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       sessionId: sessionId || undefined,
+    //     }),
+    //   });
 
-      if (!response.ok) {
-        throw new Error("Failed to clear the old session");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to clear session");
-    }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to clear the old session");
+    //   }
+    // } catch (err) {
+    //   setError(err instanceof Error ? err.message : "Failed to clear session");
+    // }
 
     try {
-      const response = await fetch(`${API_URL ? API_URL : ""}/create-session`, {
+      const response = await fetch(`${API_URL ? API_URL : ""}/session/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +220,6 @@ function App() {
       const data = await response.json();
       setSessionId(data.sessionId);
       localStorage.setItem('sessionId', data.sessionId);
-      // TODO: Clear the history
       setHistory([]);
       setCurrentHistoryIndex(-1);
       await clearHistory();
@@ -257,13 +256,13 @@ function App() {
               >
                 {loading ? "Evaluating..." : "Evaluate"}
               </button>
-              {/* <button
+              <button
                 type="button"
                 onClick={handleNewSession}
                 className="new-session-button"
               >
                 New Session
-              </button> */}
+              </button>
             </div>
             {sessionId && (
               <div className="session-info">Session ID: {sessionId}</div>
