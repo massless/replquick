@@ -25,30 +25,6 @@ function App() {
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
   const [activeTab, setActiveTab] = useState<'debug' | 'interactive'>('interactive');
 
-  // Get current session ID
-  const getCurrentSession = async () => {
-    try {
-      const response = await fetch(`${API_URL ? API_URL : ""}/current-session`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-session-id": sessionId || "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to get current session");
-      }
-
-      const data = await response.json();
-      if (data.sessionId) {
-        setSessionId(data.sessionId);
-      }
-    } catch (err) {
-      console.error("Error getting current session:", err);
-    }
-  };
-
   // Initialize IndexedDB and get current session
   useEffect(() => {
     const initDB = async () => {
@@ -79,8 +55,6 @@ function App() {
     const storedSessionId = localStorage.getItem('sessionId');
     if (storedSessionId) {
       setSessionId(storedSessionId);
-    } else {
-      getCurrentSession();
     }
   }, []);
 
