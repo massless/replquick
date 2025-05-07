@@ -42,6 +42,7 @@ export function FormSection({
           />
         </div>
         <div className="button-group">
+          <span className="shift-enter-hint">Shift + Enter to submit</span>
           <button
             type="button"
             onClick={handleSubmit}
