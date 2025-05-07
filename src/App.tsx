@@ -260,6 +260,7 @@ function App() {
                 history={history}
                 onHistorySelect={handleHistorySelect}
                 currentHistoryIndex={currentHistoryIndex}
+                isDarkMode={isDarkMode}
               />
             </div>
             <div className="button-group">

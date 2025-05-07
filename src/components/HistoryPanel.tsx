@@ -1,5 +1,5 @@
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus, prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { createPortal } from "react-dom";
 import "./HistoryPanel.css";
 
@@ -14,6 +14,7 @@ interface HistoryPanelProps {
   currentHistoryIndex: number;
   onHistorySelect: (index: number) => void;
   triggerRect: DOMRect | null;
+  isDarkMode: boolean;
 }
 
 export function HistoryPanel({
@@ -21,6 +22,7 @@ export function HistoryPanel({
   currentHistoryIndex,
   onHistorySelect,
   triggerRect,
+  isDarkMode,
 }: HistoryPanelProps) {
   if (!triggerRect) return null;
 
@@ -31,7 +33,7 @@ export function HistoryPanel({
     width: `calc(100vw - ${triggerRect.left * 2}px)`,
   };
 
-  const handleItemClick = (index: number, event: React.MouseEvent) => {
+  const handleItemClick = (index: number, _event: React.MouseEvent) => {
     console.log('[HistoryPanel] History item clicked:', index); // Debug log
     onHistorySelect(index);
   };
@@ -51,13 +53,13 @@ export function HistoryPanel({
           </span>
           <SyntaxHighlighter
             language="json"
-            style={docco}
+            style={isDarkMode ? vscDarkPlus : prism}
             customStyle={{
               margin: "0",
               padding: "4px",
-              color: "#333",
-              background: "#fff",
+              background: "transparent",
               textAlign: "left",
+              fontSize: "0.8em"
             }}
             wrapLines={true}
             wrapLongLines={true}

@@ -10,6 +10,7 @@ interface CodeInputProps {
   history: EvaluationHistory[];
   onHistorySelect: (index: number, hideHistory: () => void) => void;
   currentHistoryIndex: number;
+  isDarkMode: boolean;
 }
 
 interface EvaluationHistory {
@@ -25,6 +26,7 @@ export function CodeInput({
   history,
   onHistorySelect,
   currentHistoryIndex,
+  isDarkMode,
 }: CodeInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -123,6 +125,7 @@ export function CodeInput({
           currentHistoryIndex={currentHistoryIndex}
           onHistorySelect={handleHistorySelect}
           triggerRect={buttonRect}
+          isDarkMode={isDarkMode}
         />
       )}
 
