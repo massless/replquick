@@ -168,25 +168,6 @@ function App() {
   const handleNewSession = async () => {
     console.log("[App] handleNewSession", { sessionId });
 
-    // First clear the current session
-    // try {
-    //   const response = await fetch(`${API_URL ? API_URL : ""}/clear-session`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       sessionId: sessionId || undefined,
-    //     }),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to clear the old session");
-    //   }
-    // } catch (err) {
-    //   setError(err instanceof Error ? err.message : "Failed to clear session");
-    // }
-
     try {
       const response = await fetch(`${API_URL ? API_URL : ""}/session/create`, {
         method: "POST",
