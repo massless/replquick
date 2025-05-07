@@ -153,25 +153,46 @@ const redisClient = Redis.createClient({
 });
 
 // Handle Redis connection events
-redisClient.on('error', (err) => console.error('Redis Client Error:', err));
-redisClient.on('connect', () => console.log('Redis Client Connected'));
+redisClient.on('error', (err) => {
+  console.error('Redis Client Error:', err);
+  console.error('Redis URL:', process.env.REDIS_URL ? 'REDIS_URL is set' : 'REDIS_URL is not set');
+});
+redisClient.on('connect', () => {
+  console.log('Redis Client Connected');
+  console.log('Environment:', process.env.NODE_ENV);
+});
 redisClient.on('reconnecting', () => console.log('Redis Client Reconnecting'));
 
 // Configure session middleware with Redis store
 app.use(
   session({
     store: process.env.NODE_ENV === "production"
-      ? new RedisStore({ client: redisClient })
+      ? new RedisStore({
+          client: redisClient,
+          prefix: "sess:",
+          ttl: 86400 // 24 hours in seconds
+        })
       : new session.MemoryStore(),
     secret: process.env.SESSION_SECRET || "a-very-secret-key",
-    resave: false,
+    resave: true, // Changed to true to ensure session is saved
     saveUninitialized: true,
+    rolling: true, // Refresh session on activity
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: 'lax',
+      httpOnly: true
     }
   })
 );
+
+// Add session debugging middleware
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session exists:', !!req.session);
+  console.log('Session touched:', req.session?.touched);
+  next();
+});
 
 // Configure CORS
 app.use(cors({
@@ -211,6 +232,8 @@ app.post("/eval", (req: Request, res: Response) => {
     root: rootId,
     serialized: serializer.getSerialized(),
   };
+
+  console.log("[Server] Evaluation successful:", sessionId);
   res.json(response);
 });
 
