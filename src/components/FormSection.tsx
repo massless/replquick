@@ -1,0 +1,66 @@
+import { useState } from "react";
+import { CodeInput } from "./CodeInput";
+import { EvaluationHistory } from "../types";
+
+interface FormSectionProps {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  handleSubmit: () => void;
+  handleNewSession: () => void;
+  loading: boolean;
+  error: string | null;
+  history: EvaluationHistory[];
+  onHistorySelect: (index: number, onSelect?: () => void) => void;
+  currentHistoryIndex: number;
+  isDarkMode: boolean;
+}
+
+export function FormSection({
+  inputValue,
+  setInputValue,
+  handleSubmit,
+  handleNewSession,
+  loading,
+  error,
+  history,
+  onHistorySelect,
+  currentHistoryIndex,
+  isDarkMode,
+}: FormSectionProps) {
+  return (
+    <div className="form-section">
+      <div className="form">
+        <div className="form-group">
+          <CodeInput
+            value={inputValue}
+            onChange={setInputValue}
+            onSubmit={handleSubmit}
+            history={history}
+            onHistorySelect={onHistorySelect}
+            currentHistoryIndex={currentHistoryIndex}
+            isDarkMode={isDarkMode}
+          />
+        </div>
+        <div className="button-group">
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="submit-button"
+            disabled={loading}
+          >
+            {loading ? "Evaluating..." : "Evaluate"}
+          </button>
+          <button
+            type="button"
+            onClick={handleNewSession}
+            className="new-session-button"
+          >
+            New Session
+          </button>
+        </div>
+
+        {error && <div className="error-message">Error: {error}</div>}
+      </div>
+    </div>
+  );
+}

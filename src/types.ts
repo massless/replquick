@@ -17,3 +17,9 @@ export interface EvalResponse {
   serialized: Record<string, SerializedValue>
   sessionId?: string
 }
+
+export interface EvaluationHistory {
+  id: number;
+  code: string;
+  timestamp: number;
+}

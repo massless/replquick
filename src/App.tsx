@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
-import { EvalResponse } from "./types";
+import { EvalResponse, EvaluationHistory } from "./types";
 import { DebugView } from "./components/DebugView";
 import { InteractiveView } from "./components/InteractiveView";
 import { CodeInput } from "./components/CodeInput";
 import { WelcomeModal } from "./components/WelcomeModal";
 import { SettingsModal } from "./components/SettingsModal";
+import { FormSection } from "./components/FormSection";
+import { ResultSection } from "./components/ResultSection";
 import "./App.css";
-
-interface EvaluationHistory {
-  id: number;
-  code: string;
-  timestamp: number;
-}
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
@@ -252,70 +248,20 @@ function App() {
       </header>
 
       <div className="main-content">
-        <div className="form-section">
-          <div className="form">
-            <div className="form-group">
-              <CodeInput
-                value={inputValue}
-                onChange={setInputValue}
-                onSubmit={handleSubmit}
-                history={history}
-                onHistorySelect={handleHistorySelect}
-                currentHistoryIndex={currentHistoryIndex}
-                isDarkMode={isDarkMode}
-              />
-            </div>
-            <div className="button-group">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="submit-button"
-                disabled={loading}
-              >
-                {loading ? "Evaluating..." : "Evaluate"}
-              </button>
-              <button
-                type="button"
-                onClick={handleNewSession}
-                className="new-session-button"
-              >
-                New Session
-              </button>
-            </div>
+        <FormSection
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          handleSubmit={handleSubmit}
+          handleNewSession={handleNewSession}
+          loading={loading}
+          error={error}
+          history={history}
+          onHistorySelect={handleHistorySelect}
+          currentHistoryIndex={currentHistoryIndex}
+          isDarkMode={isDarkMode}
+        />
 
-            {error && <div className="error-message">Error: {error}</div>}
-          </div>
-        </div>
-
-        {result && (
-          <div className="result-section">
-            <div className="tabs">
-              <button
-                className={`tab-button ${
-                  activeTab === "interactive" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("interactive")}
-              >
-                Result
-              </button>
-              <button
-                className={`tab-button ${
-                  activeTab === "debug" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("debug")}
-              >
-                Debug
-              </button>
-            </div>
-            <div className="tab-content">
-              {activeTab === "debug" ? (
-                <DebugView data={result} />
-              ) : (
-                <InteractiveView data={result} />
-              )}
-            </div>
-          </div>
-        )}
+        {result && <ResultSection result={result} />}
       </div>
 
       <WelcomeModal
