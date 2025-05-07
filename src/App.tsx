@@ -13,7 +13,6 @@ interface EvaluationHistory {
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
-const MAX_HISTORY = 100;
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -86,7 +85,21 @@ function App() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleHistorySelect = (index: number) => {
+    console.log("[App] handleHistorySelect", index);
+    setCurrentHistoryIndex(index);
+    if (index === -1) {
+      setInputValue("");
+    } else {
+      const code = history[index].code;
+      setInputValue(code);
+      setActiveTab("interactive");
+      handleSubmitWithCode(code);
+    }
+  };
+
+  const handleSubmitWithCode = async (code: string) => {
+    console.log("[App] handleSubmitWithCode", { code });
     setLoading(true);
     setError(null);
 
@@ -97,12 +110,13 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          code: inputValue,
+          code,
           sessionId: sessionId || undefined,
         }),
       });
 
       if (!response.ok) {
+        console.error("[App] eval error", { response, code });
         throw new Error("Failed to evaluate code");
       }
 
@@ -114,7 +128,7 @@ function App() {
         setSessionId(data.sessionId);
       }
       // Only store in history if evaluation was successful
-      await addToHistory(inputValue);
+      await addToHistory(code);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -122,19 +136,14 @@ function App() {
     }
   };
 
+  const handleSubmit = () => {
+    handleSubmitWithCode(inputValue);
+  };
+
   const handleNewSession = () => {
     setSessionId("");
     setResult(null);
     setError(null);
-  };
-
-  const handleHistorySelect = (index: number) => {
-    setCurrentHistoryIndex(index);
-    if (index === -1) {
-      setInputValue("");
-    } else {
-      setInputValue(history[index].code);
-    }
   };
 
   return (
