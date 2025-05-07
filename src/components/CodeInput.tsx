@@ -45,7 +45,7 @@ export function CodeInput({
         keyboardEvent.stopPropagation();
 
         // Get the editor instance
-        const editorElement = document.querySelector('.cm-editor');
+        const editorElement = document.querySelector(".cm-editor");
         if (editorElement) {
           const view = (editorElement as any).cmView as EditorView;
           if (view) {
@@ -54,12 +54,12 @@ export function CodeInput({
               changes: {
                 from: view.state.selection.main.head,
                 to: view.state.selection.main.head,
-                insert: ""
+                insert: "",
               },
               selection: {
                 anchor: view.state.selection.main.head,
-                head: view.state.selection.main.head
-              }
+                head: view.state.selection.main.head,
+              },
             });
           }
         }
@@ -68,11 +68,15 @@ export function CodeInput({
       }
     };
 
-    const editorElement = document.querySelector('.cm-editor');
+    const editorElement = document.querySelector(".cm-editor");
     if (editorElement) {
-      editorElement.addEventListener('keydown', handleKeyDown, { capture: true });
+      editorElement.addEventListener("keydown", handleKeyDown, {
+        capture: true,
+      });
       return () => {
-        editorElement.removeEventListener('keydown', handleKeyDown, { capture: true });
+        editorElement.removeEventListener("keydown", handleKeyDown, {
+          capture: true,
+        });
       };
     }
   }, [onSubmit]);
@@ -110,26 +114,26 @@ export function CodeInput({
   return (
     <div className="code-input-container">
       <div className="code-input-header">
-      <div className="history-toggle">
-        <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
-          <svg
-            fill="none"
-            strokeWidth="2"
-            xmlns="http://www.w3.org/2000/svg"
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M12 8l0 4l2 2"></path>
-            <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
-          </svg>
-          History
-        </button>
-      </div>
+        <div className="history-toggle">
+          <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
+            <svg
+              fill="none"
+              strokeWidth="2"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M12 8l0 4l2 2"></path>
+              <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+            </svg>
+            History
+          </button>
+        </div>
       </div>
 
       {showHistory && (
@@ -148,7 +152,7 @@ export function CodeInput({
           height="100%"
           extensions={[
             javascript({ jsx: true }),
-            placeholder("Enter some JavaScript code here...")
+            placeholder("Enter some JavaScript code here..."),
           ]}
           theme={isDarkMode ? vscodeDark : githubLight}
           onChange={(v) => {

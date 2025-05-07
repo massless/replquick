@@ -27,16 +27,26 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="welcome-modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="welcome-modal-content"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="modal-close" onClick={onClose}>
-          ×
+          <svg
+            fill="currentColor"
+            strokeWidth="0"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            height="1em"
+            width="1em"
+          >
+            <path
+              fillRule="evenodd"
+              d="m7.116 8-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
         </button>
-
-        <h1 className="modal-title">
-          <img src="/logo.svg" alt="Replquick Logo" className="modal-logo" />
-          <img src="/wordmark.svg" alt="Replquick" className="modal-wordmark" />
-        </h1>
-        <p className="modal-slogan">A quick JavaScript playground</p>
 
         <div className="modal-body">
           <div className="debug-view">
@@ -64,6 +74,18 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
             </SyntaxHighlighter>
           </div>
         </div>
+
+        <header>
+          <h1 className="modal-title">
+            {/* <img src="/logo.svg" alt="Replquick Logo" className="modal-logo" /> */}
+            <img
+              src="/wordmark.svg"
+              alt="Replquick"
+              className="modal-wordmark"
+            />
+          </h1>
+          <p className="modal-slogan">is a quick JavaScript playground</p>
+        </header>
 
         <button className="modal-button" onClick={onClose}>
           ⚡ Code it
