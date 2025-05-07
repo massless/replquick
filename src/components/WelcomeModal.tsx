@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useIsMobile } from "../hooks/useIsMobile";
 import "./WelcomeModal.css";
 
 interface WelcomeModalProps {
@@ -9,6 +10,8 @@ interface WelcomeModalProps {
 }
 
 export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -48,9 +51,12 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
             >
               {JSON.stringify(
                 {
-                  write: "console.log('Evaluate JavaScript code instantly.')",
-                  rewrite:
-                    "console.log('Debug, save and revisit your code history anytime.')",
+                  write: isMobile
+                    ? `Evaluate JS`
+                    : "console.log('Evaluate JavaScript code instantly.')",
+                  rewrite: isMobile
+                    ? `Debug + save`
+                    : "console.log('Debug, save and revisit your code history anytime.')",
                 },
                 null,
                 2
