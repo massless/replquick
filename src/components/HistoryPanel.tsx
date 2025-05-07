@@ -53,9 +53,10 @@ export function HistoryPanel({
             language="json"
             style={docco}
             customStyle={{
-              margin: 0,
-              padding: 0,
-              background: "transparent",
+              margin: "0",
+              padding: "4px",
+              color: "#333",
+              background: "#fff",
               textAlign: "left",
             }}
             wrapLines={true}

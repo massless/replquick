@@ -1,5 +1,5 @@
 .history-panel {
-  background: white;
+  background: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column-reverse;
   pointer-events: auto;
+  padding: 0 0 2px;
 }
 
 .history-item {
@@ -28,9 +29,21 @@
   background-color: #e6f7ff;
 }
 
-.timestamp {
-  display: block;
-  font-size: 0.8em;
+.history-item .timestamp {
   color: #666;
-  margin-bottom: 4px;
+  font-size: 0.8em;
+  margin: 4px;
+  display: block;
+}
+
+.history-item pre {
+  margin: 0;
+  white-space: pre-wrap;
+  color: #333;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 0.9em;
+  background: #f8f8f8;
+  padding: 4px;
+  border-radius: 2px;
+  text-align: left;
 }
