@@ -137,12 +137,18 @@ body {
 .button-group {
   display: flex;
   gap: 1rem;
+  @media (max-width: 768px) {
+    justify-content: flex-end;
+  }
 }
 
 .shift-enter-hint {
   font-size: 0.8rem;
   color: var(--text-color);
   opacity: 0.5;
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .submit-button,
@@ -458,6 +464,7 @@ body {
     max-width: 100%;
     min-width: 0;
     width: 100%;
+    padding: 1em 0 0;
   }
 
   .form-section {
@@ -483,6 +490,10 @@ h1 {
 .form-section {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 
 .form {
