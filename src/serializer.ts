@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import type { Serialized } from './types.js';
+import type { SerializedValue } from './types.js';
 
 export class Serializer {
-  private serialized: Record<string, Serialized> = {};
+  private serialized: Record<string, SerializedValue> = {};
 
   serialize(value: unknown): string {
     const id = uuidv4();
@@ -10,7 +10,7 @@ export class Serializer {
     return id;
   }
 
-  private serializeValue(value: unknown): Serialized {
+  private serializeValue(value: unknown): SerializedValue {
     if (value === undefined) {
       return {
         type: 'undefined',
@@ -83,7 +83,7 @@ export class Serializer {
     };
   }
 
-  getSerialized(): Record<string, Serialized> {
+  getSerialized(): Record<string, SerializedValue> {
     return this.serialized;
   }
 }

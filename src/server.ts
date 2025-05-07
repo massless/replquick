@@ -1,6 +1,6 @@
 import express from 'express';
 import { Serializer } from './serializer.js';
-import type { EvalRequestBody, EvalResponseBody } from './types.js';
+import type { EvalRequestBody, EvalResponse } from './types.js';
 
 const app = express();
 app.use(express.json());
@@ -39,7 +39,7 @@ app.post('/eval', (req, res) => {
     // Serialize the result
     const rootId = serializer.serialize(result);
 
-    const response: EvalResponseBody = {
+    const response: EvalResponse = {
       root: rootId,
       serialized: serializer.getSerialized()
     };
@@ -49,7 +49,7 @@ app.post('/eval', (req, res) => {
     const serializer = new Serializer();
     const rootId = serializer.serialize(error);
 
-    const response: EvalResponseBody = {
+    const response: EvalResponse = {
       root: rootId,
       serialized: serializer.getSerialized()
     };
