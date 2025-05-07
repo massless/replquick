@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import './App.css'
 import { EvalResponse } from './types'
 import { DebugView } from './components/DebugView'
 import { InteractiveView } from './components/InteractiveView'
+import './App.css'
 
 function App() {
   const [inputValue, setInputValue] = useState('')
