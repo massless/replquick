@@ -40,8 +40,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
         <div className="modal-body">
           <div className="setting-item">
-            <label htmlFor="darkMode">Dark Mode</label>
-            <div className="toggle-switch">
+            <label htmlFor="darkMode">{isDarkMode ? "Dark mode" : "Light mode"}</label>
+            <div className="toggle-switch" onClick={onToggleDarkMode}>
               <input
                 type="checkbox"
                 id="darkMode"

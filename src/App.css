@@ -569,7 +569,8 @@ button:hover {
   height: 3.5rem;
   width: auto;
   padding: 0;
-  background: #1f1e1e;
+  background: var(--bg-color);
+  /** TODO: #1f1e1e is needed in dark mode */
   box-shadow: none;
   border-radius: 100%;
 }
