@@ -261,3 +261,36 @@
   border-radius: 4px;
   overflow-x: auto;
 }
+
+.result-views {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.debug-view,
+.interactive-view {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.debug-view pre,
+.interactive-view pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.interactive-view strong {
+  color: #2c3e50;
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .result-views {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,63 +3,16 @@ export interface EvalRequestBody {
   sessionId?: string;
 }
 
+export type ObjectValue = Array<{ key: string; value: string }>
+export type ArrayValue = string[]
+export type ErrorValue = { name: string; message: string; stack: string }
+
 export interface SerializedValue {
-  type: string;
-  value: any;
+  type: 'object' | 'array' | 'error' | 'undefined' | 'string' | 'number' | 'boolean'
+  value: ObjectValue | ArrayValue | ErrorValue | string | number | boolean
 }
 
-export interface ObjectSerialized extends SerializedValue {
-  type: 'object';
-  value: Array<{
-    key: string;
-    value: string;
-  }>;
-}
-
-export interface ArraySerialized extends SerializedValue {
-  type: 'array';
-  value: string[];
-}
-
-export interface ErrorSerialized extends SerializedValue {
-  type: 'error';
-  value: {
-    name: string;
-    message: string;
-    stack: string;
-  };
-}
-
-export interface UndefinedSerialized extends SerializedValue {
-  type: 'undefined';
-  value: string;
-}
-
-export interface StringSerialized extends SerializedValue {
-  type: 'string';
-  value: string;
-}
-
-export interface NumberSerialized extends SerializedValue {
-  type: 'number';
-  value: number;
-}
-
-export interface BooleanSerialized extends SerializedValue {
-  type: 'boolean';
-  value: boolean;
-}
-
-export type Serialized =
-  | ObjectSerialized
-  | ArraySerialized
-  | ErrorSerialized
-  | UndefinedSerialized
-  | StringSerialized
-  | NumberSerialized
-  | BooleanSerialized;
-
-export interface EvalResponseBody {
-  root: string;
-  serialized: Record<string, Serialized>;
+export interface EvalResponse {
+  root: string
+  serialized: Record<string, SerializedValue>
 }

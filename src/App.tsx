@@ -1,19 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-
-type ObjectValue = Array<{ key: string; value: string }>
-type ArrayValue = string[]
-type ErrorValue = { name: string; message: string; stack: string }
-
-interface SerializedValue {
-  type: 'object' | 'array' | 'error' | 'undefined' | 'string' | 'number' | 'boolean'
-  value: ObjectValue | ArrayValue | ErrorValue | string | number | boolean
-}
-
-interface EvalResponse {
-  root: string
-  serialized: Record<string, SerializedValue>
-}
+import { EvalResponse } from './types'
+import { DebugView } from './components/DebugView'
+import { InteractiveView } from './components/InteractiveView'
 
 function App() {
   const [inputValue, setInputValue] = useState('')
@@ -99,8 +88,10 @@ function App() {
 
       {result && (
         <div className="result">
-          <h2>Result:</h2>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
+          <div className="result-views">
+            <DebugView data={result} />
+            <InteractiveView data={result} />
+          </div>
         </div>
       )}
     </div>
