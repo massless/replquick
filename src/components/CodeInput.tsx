@@ -111,7 +111,7 @@ export function CodeInput({
             const normalizedValue = v.replace(/\r\n/g, '\n').replace(/\n+$/, '');
             onChange(normalizedValue);
           }}
-          placeholder="Enter JavaScript code to evaluate..."
+          placeholder="Enter some JavaScript code here..."
           basicSetup={{
             lineNumbers: true,
             highlightActiveLineGutter: true,

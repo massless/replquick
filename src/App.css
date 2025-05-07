@@ -164,12 +164,13 @@ body {
 }
 
 .new-session-button {
-  background-color: #2196F3;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
 .new-session-button:hover {
-  background-color: #1976D2;
+  background-color: var(--button-hover);
 }
 
 .session-info {
@@ -523,6 +524,12 @@ button:focus-visible {
 
 .new-session-button {
   background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.new-session-button:hover {
+  background-color: var(--button-hover);
 }
 
 .error-message {
