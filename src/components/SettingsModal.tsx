@@ -4,6 +4,7 @@ import "./SettingsModal.css";
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  sessionId: string;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
 }
@@ -12,6 +13,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
   onClose,
   isDarkMode,
+  sessionId,
   onToggleDarkMode,
 }) => {
   if (!isOpen) return null;
@@ -20,7 +22,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Settings</h2>
+          <header>
+            <h2>Settings</h2>
+
+            {sessionId && (
+              <div className="session-info">Session ID: {sessionId}</div>
+            )}
+          </header>
           <button className="close-button" onClick={onClose}>
             <svg
               fill="currentColor"
@@ -40,7 +48,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
         <div className="modal-body">
           <div className="setting-item">
-            <label htmlFor="darkMode">{isDarkMode ? "Dark mode" : "Light mode"}</label>
+            <label htmlFor="darkMode">
+              {isDarkMode ? "Dark mode" : "Light mode"}
+            </label>
             <div className="toggle-switch" onClick={onToggleDarkMode}>
               <input
                 type="checkbox"
