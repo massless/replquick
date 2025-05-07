@@ -1,6 +1,11 @@
 .code-input-container {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 .history-toggle {
@@ -76,6 +81,7 @@
 
 .input {
   width: 100%;
+  max-width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -84,10 +90,26 @@
   font-family: 'Consolas', 'Monaco', monospace;
   resize: vertical;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 
 .input:focus {
   outline: none;
   border-color: #0066cc;
   box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .input {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
 }
