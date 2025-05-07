@@ -31,8 +31,8 @@ Evaluates JavaScript code and returns the serialized result.
 
 ```json
 {
-  "code": "string",     // The JavaScript code to evaluate
-  "sessionId": "string" // Optional: Session ID for maintaining state
+  "code": "string",
+  "sessionId": "string"
 }
 ```
 
@@ -40,11 +40,11 @@ Evaluates JavaScript code and returns the serialized result.
 
 ```json
 {
-  "root": "string",     // ID of the root node
-  "serialized": {       // Map of serialized values
+  "root": "string",
+  "serialized": {
     "id": {
-      "type": "string", // One of: object, array, error, undefined, string, number, boolean
-      "value": any      // The serialized value
+      "type": "string",
+      "value": any
     }
   }
 }
