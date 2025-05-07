@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { HistoryPanel } from "./HistoryPanel";
-import { useIsMobile } from "../hooks/useIsMobile";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -35,9 +34,7 @@ export function CodeInput({
 }: CodeInputProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
-  const _isMobile = useIsMobile();
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
-  const editorRef = useRef<EditorView | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: Event) => {
