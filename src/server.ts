@@ -65,9 +65,10 @@ app.post('/clear-session', (req, res) => {
       return;
     }
 
-    // Clear the session context by setting it to an empty object
+    // Delete the existing session and create a new empty one
     console.log("[Server] Clearing session:", sessionId);
-    sessions.set(sessionId, {});
+    sessions.delete(sessionId);
+    sessions.set(sessionId, Object.create(null));
 
     res.json({
       success: true,
@@ -91,7 +92,7 @@ app.post('/eval', (req, res) => {
     // Get or create session context
     let context = sessions.get(sessionId || '');
     if (!context) {
-      context = {};
+      context = Object.create(null) as Record<string, unknown>;  // Create a truly empty object with no prototype
       if (sessionId) {
         sessions.set(sessionId, context);
       }
@@ -106,6 +107,16 @@ app.post('/eval', (req, res) => {
         return (${code});
       }
     `)(context);
+
+    // Update the session with the new context
+    if (sessionId) {
+      sessions.set(sessionId, context);
+    }
+
+    console.log("[Server] Eval result:", {
+      sessionId,
+      result
+    });
 
     // Serialize the result
     const rootId = serializer.serialize(result);
