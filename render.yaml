@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: replquick-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: replquick-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://replquick-backend.onrender.com
