@@ -109,6 +109,7 @@ export function CodeInput({
 
   return (
     <div className="code-input-container">
+      <div className="code-input-header">
       <div className="history-toggle">
         <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
           <svg
@@ -128,6 +129,7 @@ export function CodeInput({
           </svg>
           History
         </button>
+      </div>
       </div>
 
       {showHistory && (

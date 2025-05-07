@@ -8,6 +8,8 @@
   --button-hover: #e0e0e0;
   --modal-bg: #ffffff;
   --code-bg: #f8f8f8;
+  --popover-bg: #f8f8f8;
+  --popover-border: #f9ac59;
 }
 
 [data-theme="dark"] {
@@ -19,6 +21,8 @@
   --button-hover: #4d4d4d;
   --modal-bg: #1e1d1d;
   --code-bg: #1e1d1d;
+  --popover-bg: #2d2d2d;
+  --popover-border: #d09b60;
 }
 
 body {

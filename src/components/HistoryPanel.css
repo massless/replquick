@@ -1,9 +1,21 @@
+@keyframes panelAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .history-panel {
-  background: var(--modal-bg);
-  border: 1px solid var(--border-color);
+  background: var(--popover-bg);
+  border: 1px solid var(--popover-border);
   border-radius: 4px;
   box-shadow: 0 -2px 8px var(--shadow-color);
-  height: 70dvh;
+  max-height: 70dvh;
+  height: fit-content;
   overflow-y: auto;
   z-index: 9999;
   max-width: 600px;
@@ -12,6 +24,7 @@
   pointer-events: auto;
   padding: 0 0 2px;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  animation: panelAppear 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .empty-state {
@@ -44,6 +57,10 @@
   cursor: pointer;
   user-select: none;
   pointer-events: auto;
+}
+
+.history-item:last-child {
+  border-bottom: none;
 }
 
 .history-item:hover {
