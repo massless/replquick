@@ -146,6 +146,17 @@ const redisClient = createClient({
 // Handle Redis client errors
 redisClient.on('error', (err) => console.error('Redis Client Error:', err));
 
+// Connect to Redis before starting the server
+const connectRedis = async () => {
+  try {
+    await redisClient.connect();
+    console.log('Redis client connected successfully');
+  } catch (err) {
+    console.error('Failed to connect to Redis:', err);
+    process.exit(1); // Exit if we can't connect to Redis in production
+  }
+};
+
 // Configure session middleware
 app.use(
   session({
@@ -230,8 +241,16 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  if (process.env.NODE_ENV === "production") {
+    await connectRedis();
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+startServer();
 
 export default SessionEvaluator;
