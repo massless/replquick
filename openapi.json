@@ -1,0 +1,298 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Flatval",
+    "description": "Flatval is an API designed to execute JavaScript code and respond with the outcome in a serialized format. The results are presented as a flat map of objects, hence the name 'Flatval'. Similar to many REPL (Read-Eval-Print Loop) implementations, including Node.js, Flatval returns the result of the last expression that was evaluated. It's important to distinguish between expressions, which yield a value, and statements, which typically do not. For a deeper understanding of 'statement vs. expression' in JavaScript, consider searching 'statement vs expression javascript' online, or experience it firsthand by entering a Node.js REPL environment - simply type node in your console to begin.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/eval": {
+      "post": {
+        "summary": "Evaluate a JavaScript expression",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvalRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "the result of the evaluation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvalResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EvalRequestBody": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "the JavaScript code to evaluate",
+            "example": "// alice refers to bob and bob refers to back alice!\nvar alice = { name: 'Alice', follows: [] };\nvar bob = { name: 'Bob', follows: [alice] };\nalice.follows.push(bob); alice;"
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The evaluation session. Sessions are preserved in-memory, server restarts will lose sessions.",
+            "example": "aab9f3ba-7465-4319-820b-555b2e15433d"
+          }
+        }
+      },
+      "ObjectSerialized": {
+        "description": "A serialized object, referencing keys and values",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'object'",
+            "enum": ["object"]
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "ID of the value"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "ID of the value"
+                }
+              }
+            },
+            "example": [
+              {
+                "key": "2ff9b69e-4235-4dd5-9258-490aee82d6f8",
+                "value": "1d31201e-f263-48d2-9a5f-ea7339c4e960"
+              },
+              {
+                "key": "6fc8beca-6551-4d1d-acb9-926f0f1e0d22",
+                "value": "de17ccbd-d395-47f2-b283-57b8a872be73"
+              }
+            ]
+          }
+        }
+      },
+      "ArraySerialized": {
+        "description": "A serialized array, referencing values",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'array'",
+            "enum": ["array"]
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "ID of the value"
+            },
+            "example": [
+              "20a06e9f-0fbf-4c57-9370-68922730fded",
+              "5e3c8bf4-6ab9-478a-8aec-ef5fc4d5206f"
+            ]
+          }
+        }
+      },
+      "ErrorSerialized": {
+        "description": "A serialized error",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'error'",
+            "enum": ["error"]
+          },
+          "value": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "stack": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "name": "ReferenceError",
+              "message": "somevariable is not defined",
+              "stack": "ReferenceError: undefinedVariable is not defined\nat index.js:2:11"
+            }
+          }
+        }
+      },
+      "UndefinedSerialized": {
+        "description": "A serialized undefined value",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'undefined'",
+            "enum": ["undefined"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Ignore, an empty string"
+          }
+        }
+      },
+      "StringSerialized": {
+        "description": "A serialized string value",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'string'",
+            "enum": ["string"]
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "NumberSerialized": {
+        "description": "A serialized number value",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'number'",
+            "enum": ["number"]
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      },
+      "BooleanSerialized": {
+        "description": "A serialized boolean value",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Will always be 'boolean'",
+            "enum": ["boolean"]
+          },
+          "value": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Serialized": {
+        "description": "A union of all serialized types",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ObjectSerialized"
+          },
+          {
+            "$ref": "#/components/schemas/ArraySerialized"
+          },
+          {
+            "$ref": "#/components/schemas/ErrorSerialized"
+          },
+          {
+            "$ref": "#/components/schemas/UndefinedSerialized"
+          },
+          {
+            "$ref": "#/components/schemas/StringSerialized"
+          },
+          {
+            "$ref": "#/components/schemas/NumberSerialized"
+          },
+          {
+            "$ref": "#/components/schemas/BooleanSerialized"
+          }
+        ]
+      },
+      "EvalResponseBody": {
+        "type": "object",
+        "properties": {
+          "root": {
+            "type": "string",
+            "description": "ID of the root node"
+          },
+          "serialized": {
+            "type": "object",
+            "description": "result of the evaluation",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Serialized"
+            }
+          }
+        },
+        "example": {
+          "root": "5e04a0ec-be54-4908-81b1-d6b076b6a4ef",
+          "serialized": {
+            "5e04a0ec-be54-4908-81b1-d6b076b6a4ef": {
+              "type": "object",
+              "value": [
+                {
+                  "key": "302da8f6-712b-4d90-9e6c-48a549ae2e2f",
+                  "value": "d4cc776e-0626-45b1-95d5-3b4ed4ed7de7"
+                },
+                {
+                  "key": "a3c60cde-d339-419a-81cd-e699671e80fb",
+                  "value": "d52777dc-bc33-4e22-82a9-1de4aa2f2f18"
+                }
+              ]
+            },
+            "302da8f6-712b-4d90-9e6c-48a549ae2e2f": {
+              "type": "string",
+              "value": "name"
+            },
+            "d4cc776e-0626-45b1-95d5-3b4ed4ed7de7": {
+              "type": "string",
+              "value": "Alice"
+            },
+            "a3c60cde-d339-419a-81cd-e699671e80fb": {
+              "type": "string",
+              "value": "follows"
+            },
+            "d52777dc-bc33-4e22-82a9-1de4aa2f2f18": {
+              "type": "array",
+              "value": ["86f88625-035c-4e3c-8374-27c2ec41bf67"]
+            },
+            "86f88625-035c-4e3c-8374-27c2ec41bf67": {
+              "type": "object",
+              "value": [
+                {
+                  "key": "302da8f6-712b-4d90-9e6c-48a549ae2e2f",
+                  "value": "64e38be1-437a-4505-b183-3f34b8b474b3"
+                },
+                {
+                  "key": "a3c60cde-d339-419a-81cd-e699671e80fb",
+                  "value": "32b7f10e-66ed-46b0-b29c-1c604ea2f0d8"
+                }
+              ]
+            },
+            "64e38be1-437a-4505-b183-3f34b8b474b3": {
+              "type": "string",
+              "value": "Bob"
+            },
+            "32b7f10e-66ed-46b0-b29c-1c604ea2f0d8": {
+              "type": "array",
+              "value": ["5e04a0ec-be54-4908-81b1-d6b076b6a4ef"]
+            }
+          }
+        }
+      }
+    }
+  }
+}
