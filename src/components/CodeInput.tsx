@@ -122,7 +122,7 @@ export function CodeInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Enter JavaScript code to evaluate... (Ctrl+Enter to run, Ctrl+↑/↓ to navigate history)"
+        placeholder="Enter JavaScript code to evaluate..."
         className="input"
         rows={5}
       />
