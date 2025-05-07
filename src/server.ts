@@ -3,11 +3,20 @@ import { Serializer } from './serializer.js';
 import type { EvalRequestBody, EvalResponse } from './types.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Configure CORS
+app.use(cors({
+  origin: ['https://replquick.onrender.com', 'http://localhost:5173'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Add error logging middleware
