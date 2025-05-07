@@ -52,6 +52,8 @@ export function HistoryPanel({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
+  const portalRoot = document.getElementById('portal-root') || document.body;
+
   return createPortal(
     <div className="history-panel" style={panelStyle}>
       {history.length === 0 ? (
@@ -103,6 +105,6 @@ export function HistoryPanel({
         ))
       )}
     </div>,
-    document.getElementById('root') || document.body
+    portalRoot
   );
 }

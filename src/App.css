@@ -17,7 +17,7 @@
 [data-theme="dark"] {
   --bg-color: #232222;
   --text-color: #ffffff;
-  --border-color: #333333;
+  --border-color:rgb(74, 74, 74);
   --input-bg: #2d2d2d;
   --button-bg: #3d3d3d;
   --button-hover: #4d4d4d;
@@ -25,7 +25,7 @@
   --code-bg: #1e1d1d;
   --popover-bg: #2d2d2d;
   --popover-border: #d09b60;
-  --panel-bg: #2d2d2d;
+  --panel-bg: #373737;
   --modal-overlay: rgb(48 48 48 / 83%);
 }
 
@@ -448,18 +448,33 @@ body {
 }
 
 .result-section {
-  flex: 0.5;
-  min-width: 400px;
+  flex: none;
+  min-width: 300px;
+  max-width: 900px;
   height: 100%;
   overflow: auto;
   background-color: var(--panel-bg);
   padding: 1em;
   border-radius: 8px;
   animation: slideInFromRight 0.3s ease-out forwards;
-  @media (max-width: 768px) {
-    animation: slideInFromBottom 0.3s ease-out forwards;
-    flex: 1;
-  }
+  position: relative;
+  transition: width 0.1s;
+}
+
+.resizer {
+  background: rgba(0,0,0,0.05);
+  width: 6px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  cursor: ew-resize;
+  z-index: 10;
+}
+
+.resizer:hover {
+  background: rgba(0,0,0,0.15);
+  border-left: 2px solid var(--border-color);
 }
 
 .tabs {

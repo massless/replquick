@@ -8,6 +8,7 @@ import { SettingsModal } from "./components/SettingsModal";
 import { FormSection } from "./components/FormSection";
 import { ResultSection } from "./components/ResultSection";
 import "./App.css";
+import { useIsMobile } from "./hooks/useIsMobile";
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
@@ -32,6 +33,8 @@ function App() {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark" || !savedTheme; // Default to dark mode if no theme is saved
   });
+  const isMobile = useIsMobile();
+  const [resultSectionWidth, setResultSectionWidth] = useState(500); // px
 
   // Initialize theme
   useEffect(() => {
@@ -259,9 +262,18 @@ function App() {
           onHistorySelect={handleHistorySelect}
           currentHistoryIndex={currentHistoryIndex}
           isDarkMode={isDarkMode}
+          width={isMobile ? undefined : `calc(100% - ${result && !isMobile ? resultSectionWidth : 0}px)`}
         />
 
-        {result && <ResultSection result={result} />}
+        {result && (
+          <ResultSection
+            result={result}
+            width={resultSectionWidth}
+            setWidth={setResultSectionWidth}
+            isMobile={isMobile}
+            activeTab={activeTab}
+          />
+        )}
       </div>
 
       <WelcomeModal

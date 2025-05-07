@@ -13,6 +13,7 @@ interface FormSectionProps {
   onHistorySelect: (index: number, onSelect?: () => void) => void;
   currentHistoryIndex: number;
   isDarkMode: boolean;
+  width?: number | string;
 }
 
 export function FormSection({
@@ -26,9 +27,10 @@ export function FormSection({
   onHistorySelect,
   currentHistoryIndex,
   isDarkMode,
+  width,
 }: FormSectionProps) {
   return (
-    <div className="form-section">
+    <div className="form-section" style={width ? { width } : undefined}>
       <div className="form">
         <div className="form-group">
           <CodeInput
