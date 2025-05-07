@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -32,19 +32,44 @@ export function CodeInput({
 }: CodeInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    };
+
+    // Check initially
+    checkMobile();
+
+    // Add listener for window resize
+    window.addEventListener('resize', checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleHistorySelect = (index: number) => {
+    onHistorySelect(index, () => {
+      // Only hide history on mobile devices
+      if (isMobile) {
+        setShowHistory(false);
+      }
+    });
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "ArrowUp" && e.ctrlKey) {
       e.preventDefault();
       if (currentHistoryIndex < history.length - 1) {
-        onHistorySelect(currentHistoryIndex + 1, () => setShowHistory(false));
+        handleHistorySelect(currentHistoryIndex + 1);
       }
     } else if (e.key === "ArrowDown" && e.ctrlKey) {
       e.preventDefault();
       if (currentHistoryIndex > 0) {
-        onHistorySelect(currentHistoryIndex - 1, () => setShowHistory(false));
+        handleHistorySelect(currentHistoryIndex - 1);
       } else if (currentHistoryIndex === 0) {
-        onHistorySelect(-1, () => setShowHistory(false));
+        handleHistorySelect(-1);
       }
     } else if (e.key === "Enter" && e.ctrlKey) {
       e.preventDefault();
@@ -68,9 +93,7 @@ export function CodeInput({
               className={`history-item ${
                 index === currentHistoryIndex ? "current" : ""
               }`}
-              onClick={() => {
-                onHistorySelect(index, () => setShowHistory(false));
-              }}
+              onClick={() => handleHistorySelect(index)}
             >
               <span className="timestamp">
                 {new Date(item.timestamp).toLocaleTimeString()}
