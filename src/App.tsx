@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { EvalResponse, EvaluationHistory } from "./types";
-import { DebugView } from "./components/DebugView";
-import { InteractiveView } from "./components/InteractiveView";
-import { CodeInput } from "./components/CodeInput";
 import { WelcomeModal } from "./components/WelcomeModal";
 import { SettingsModal } from "./components/SettingsModal";
 import { FormSection } from "./components/FormSection";
 import { ResultSection } from "./components/ResultSection";
-import "./App.css";
 import { useIsMobile } from "./hooks/useIsMobile";
+import "./App.css";
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
