@@ -5,8 +5,6 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import type { EvalRequestBody, EvalResponse } from "./types.js";
 import { Serializer } from "./serializer.js";
-import { RedisStore } from "connect-redis";
-import { createClient } from "redis";
 
 // Extend the express session with our own properties
 declare module "express-session" {
@@ -138,25 +136,6 @@ class SessionEvaluator {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Create Redis client
-const redisClient = createClient({
-  url: process.env.REDIS_URL
-});
-
-// Handle Redis client errors
-redisClient.on('error', (err) => console.error('Redis Client Error:', err));
-
-// Connect to Redis before starting the server
-const connectRedis = async () => {
-  try {
-    await redisClient.connect();
-    console.log('Redis client connected successfully');
-  } catch (err) {
-    console.error('Failed to connect to Redis:', err);
-    process.exit(1); // Exit if we can't connect to Redis in production
-  }
-};
-
 // Configure session middleware
 app.use(
   session({
@@ -167,9 +146,7 @@ app.use(
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     },
-    store: process.env.NODE_ENV === "production"
-      ? new RedisStore({ client: redisClient })
-      : new session.MemoryStore()
+    store: new session.MemoryStore() // Always use MemoryStore
   })
 );
 
@@ -242,10 +219,6 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 // Start the server
 const startServer = async () => {
-  if (process.env.NODE_ENV === "production") {
-    await connectRedis();
-  }
-
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

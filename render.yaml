@@ -9,10 +9,6 @@ services:
         value: production
       - key: SESSION_SECRET
         generateValue: true
-      - key: REDIS_URL
-        fromDatabase:
-          name: replquick-redis
-          property: connectionString
     nodeVersion: 20.x
     healthCheckPath: /eval
     autoDeploy: true
@@ -25,8 +21,3 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://replquick-backend.onrender.com
-
-databases:
-  - name: replquick-redis
-    databaseName: replquick
-    plan: free
