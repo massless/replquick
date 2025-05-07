@@ -5,7 +5,9 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build",
+    "build:server": "tsc -p tsconfig.build.json",
     "start": "node --experimental-specifier-resolution=node dist/server.js",
     "dev:server": "NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/server.ts",
     "dev:client": "vite",

@@ -1,12 +1,25 @@
 import express from 'express';
 import { Serializer } from './serializer.js';
 import type { EvalRequestBody, EvalResponse } from './types.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, '../dist')));
+
 // Store sessions in memory
 const sessions = new Map<string, Record<string, unknown>>();
+
+// Root route handler
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 
 app.post('/eval', (req, res) => {
   try {
