@@ -4,6 +4,8 @@ import express, { Request, Response, NextFunction, response } from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
 import cors from "cors";
+import Redis from "redis";
+import { RedisStore } from "connect-redis";
 import type { EvalRequestBody, EvalResponse } from "./types.js";
 import { Serializer } from "./serializer.js";
 
@@ -137,17 +139,37 @@ class SessionEvaluator {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure session middleware
+// Create Redis client
+const redisClient = Redis.createClient({
+  url: process.env.REDIS_URL || "redis://localhost:6379",
+  socket: {
+    reconnectStrategy: (retries) => {
+      // Exponential backoff: 2^retries * 100ms
+      const delay = Math.min(2 ** retries * 100, 3000);
+      console.log(`Redis reconnecting in ${delay}ms...`);
+      return delay;
+    }
+  }
+});
+
+// Handle Redis connection events
+redisClient.on('error', (err) => console.error('Redis Client Error:', err));
+redisClient.on('connect', () => console.log('Redis Client Connected'));
+redisClient.on('reconnecting', () => console.log('Redis Client Reconnecting'));
+
+// Configure session middleware with Redis store
 app.use(
   session({
+    store: process.env.NODE_ENV === "production"
+      ? new RedisStore({ client: redisClient })
+      : new session.MemoryStore(),
     secret: process.env.SESSION_SECRET || "a-very-secret-key",
     resave: false,
     saveUninitialized: true,
     cookie: {
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    },
-    store: new session.MemoryStore() // Always use MemoryStore
+    }
   })
 );
 
@@ -230,10 +252,29 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 // Start the server
 const startServer = async () => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  try {
+    // Only connect to Redis in production
+    if (process.env.NODE_ENV === "production") {
+      await redisClient.connect();
+    }
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 };
+
+// Handle graceful shutdown
+process.on('SIGTERM', async () => {
+  console.log('SIGTERM received. Closing Redis connection...');
+  if (process.env.NODE_ENV === "production") {
+    await redisClient.quit();
+  }
+  process.exit(0);
+});
 
 startServer();
 
