@@ -12,7 +12,7 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-.modal-content {
+.welcome-modal-content {
   background: linear-gradient(135deg, #ffffff, #f1ab5afc);
   padding: 3rem;
   border-radius: 16px;
@@ -168,7 +168,7 @@
 }
 
 @media (max-width: 768px) {
-  .modal-content {
+  .welcome-modal-content {
     padding: 2rem;
     margin: 1rem;
     max-width: calc(100dvw - 6em);

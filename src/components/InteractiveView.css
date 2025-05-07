@@ -1,0 +1,65 @@
+.interactive-view {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.json-viewer {
+  background-color: var(--code-bg);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow: auto;
+  text-align: left;
+  font-family: monospace;
+  color: var(--text-color);
+}
+
+.interactive-view-toggle {
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.interactive-view-toggle:hover {
+  opacity: 1;
+}
+
+/* JSON syntax highlighting */
+.json-null {
+  color: var(--json-null);
+}
+
+.json-string {
+  color: var(--json-string);
+}
+
+.json-number {
+  color: var(--json-number);
+}
+
+.json-boolean {
+  color: var(--json-boolean);
+}
+
+.json-key {
+  color: var(--json-key);
+}
+
+/* Light theme colors */
+:root {
+  --json-null: #808080;
+  --json-string: #008000;
+  --json-number: #0000ff;
+  --json-boolean: #800080;
+  --json-key: #a52a2a;
+}
+
+/* Dark theme colors */
+[data-theme="dark"] {
+  --json-null: #808080;
+  --json-string: #6a9955;
+  --json-number: #569cd6;
+  --json-boolean: #c586c0;
+  --json-key: #9cdcfe;
+}

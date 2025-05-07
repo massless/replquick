@@ -4,6 +4,7 @@ import { DebugView } from "./components/DebugView";
 import { InteractiveView } from "./components/InteractiveView";
 import { CodeInput } from "./components/CodeInput";
 import { WelcomeModal } from "./components/WelcomeModal";
+import { SettingsModal } from "./components/SettingsModal";
 import "./App.css";
 
 interface EvaluationHistory {
@@ -26,6 +27,17 @@ function App() {
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
   const [activeTab, setActiveTab] = useState<'debug' | 'interactive'>('interactive');
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark' || !savedTheme; // Default to dark mode if no theme is saved
+  });
+
+  // Initialize theme
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
   // Initialize IndexedDB and get current session
   useEffect(() => {
@@ -198,8 +210,20 @@ function App() {
     localStorage.setItem('hasVisitedBefore', 'true');
   };
 
+  const handleToggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
     <div className="app-container">
+      <button
+        className="settings-button"
+        onClick={() => setShowSettingsModal(true)}
+        title="Settings"
+      >
+        ⚙️
+      </button>
+
       <h1>Replquick</h1>
 
       <div className="main-content">
@@ -270,6 +294,13 @@ function App() {
       <WelcomeModal
         isOpen={showWelcomeModal}
         onClose={handleCloseWelcomeModal}
+      />
+
+      <SettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={handleToggleDarkMode}
       />
     </div>
   );

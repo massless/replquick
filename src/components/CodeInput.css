@@ -15,25 +15,32 @@
   gap: 0.25em;
   font-size: 0.88rem;
   padding: 4px 8px;
-  background: #f0f0f0;
-  border: 1px solid #ccc;
+  background: var(--button-bg);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   cursor: pointer;
+  color: var(--text-color);
 }
 
 .history-toggle button:hover {
-  background: #e0e0e0;
+  background: var(--button-hover);
+}
+
+.history-toggle button svg {
+  color: var(--text-color);
 }
 
 .code-input-container .input {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-family: monospace;
   font-size: 0.81rem;
   resize: vertical;
   min-height: 100px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
 }
 
 .input:focus {

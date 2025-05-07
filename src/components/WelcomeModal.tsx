@@ -27,7 +27,7 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="welcome-modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>
           ×
         </button>

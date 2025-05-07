@@ -1,5 +1,6 @@
 import { EvalResponse, ObjectValue, ArrayValue, ErrorValue } from '../types'
 import { useState } from 'react'
+import './InteractiveView.css'
 
 interface InteractiveViewProps {
   data: EvalResponse
@@ -15,19 +16,19 @@ const CollapsibleJSONViewer = ({ data, level = 0 }: CollapsibleJSONViewerProps) 
   const indent = '  '.repeat(level)
 
   if (data === null) {
-    return <span style={{ color: '#808080' }}>null</span>
+    return <span className="json-null">null</span>
   }
 
   if (typeof data === 'string') {
-    return <span style={{ color: '#008000' }}>"{data}"</span>
+    return <span className="json-string">"{data}"</span>
   }
 
   if (typeof data === 'number') {
-    return <span style={{ color: '#0000ff' }}>{data}</span>
+    return <span className="json-number">{data}</span>
   }
 
   if (typeof data === 'boolean') {
-    return <span style={{ color: '#800080' }}>{data.toString()}</span>
+    return <span className="json-boolean">{data.toString()}</span>
   }
 
   if (Array.isArray(data)) {
@@ -87,7 +88,7 @@ const CollapsibleJSONViewer = ({ data, level = 0 }: CollapsibleJSONViewerProps) 
             {entries.map(([key, value], index) => (
               <div key={key} style={{ marginLeft: '20px' }}>
                 {indent}
-                <span style={{ color: '#a52a2a' }}>"{key}"</span>: <CollapsibleJSONViewer data={value} level={level + 1} />
+                <span className="json-key">"{key}"</span>: <CollapsibleJSONViewer data={value} level={level + 1} />
                 {index < entries.length - 1 && ','}
               </div>
             ))}
@@ -135,14 +136,7 @@ export const InteractiveView = ({ data }: InteractiveViewProps) => {
 
   return (
     <div className="interactive-view">
-      <div style={{
-        backgroundColor: '#f8f8f8',
-        borderRadius: '4px',
-        padding: '1rem',
-        overflow: 'auto',
-        textAlign: 'left',
-        fontFamily: 'monospace'
-      }}>
+      <div className="json-viewer">
         <CollapsibleJSONViewer data={jsonData} />
       </div>
     </div>
