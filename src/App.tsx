@@ -183,7 +183,7 @@ function App() {
     handleSubmitWithCode(inputValue);
   };
 
-  const handleNewSession = async () => {
+  const _handleNewSession = async () => {
     console.log("[App] handleNewSession", { sessionId });
 
     // First clear the current session
@@ -257,13 +257,13 @@ function App() {
               >
                 {loading ? "Evaluating..." : "Evaluate"}
               </button>
-              <button
+              {/* <button
                 type="button"
                 onClick={handleNewSession}
                 className="new-session-button"
               >
                 New Session
-              </button>
+              </button> */}
             </div>
             {sessionId && (
               <div className="session-info">Session ID: {sessionId}</div>
