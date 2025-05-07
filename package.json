@@ -1,5 +1,5 @@
 {
-  "name": "flatval",
+  "name": "replquick",
   "version": "1.0.0",
   "description": "JavaScript evaluation API with serialized output",
   "type": "module",
