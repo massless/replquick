@@ -31,6 +31,18 @@ export function CodeInput({
   const [isMobile, setIsMobile] = useState(false);
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [value]);
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.matchMedia("(max-width: 768px)").matches);
@@ -135,7 +147,7 @@ export function CodeInput({
         onKeyDown={handleKeyDown}
         placeholder="Enter JavaScript code to evaluate..."
         className="input"
-        rows={5}
+        style={{ minHeight: '100px', overflow: 'hidden' }}
       />
     </div>
   );
