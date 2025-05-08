@@ -52,12 +52,13 @@
 
 .history-item {
   display: flex;
-  gap: 1em;
+  flex-direction: column;
   padding: 8px;
   border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   user-select: none;
   pointer-events: auto;
+  transition: all 0.2s ease;
 }
 
 .history-item:last-child {
@@ -72,13 +73,63 @@
   background-color: var(--input-bg);
 }
 
+.history-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  margin-bottom: 4px;
+}
+
 .history-item .timestamp {
-  display: block;
-  width: 68px;
   color: var(--text-color);
   font-size: 0.73em;
-  margin: 4px;
   opacity: 0.7;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-color);
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  visibility: hidden;
+}
+
+.history-item:has(.code-container) .expand-button {
+  visibility: visible;
+}
+
+.expand-button:hover {
+  opacity: 1;
+}
+
+.history-item.expanded .expand-button {
+  transform: rotate(180deg);
+}
+
+.code-preview {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.history-item.expanded .code-preview {
+  display: none;
+}
+
+.code-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.history-item.expanded .code-container {
+  max-height: 500px;
 }
 
 .history-item pre {
