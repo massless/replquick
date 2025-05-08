@@ -10,7 +10,7 @@
   --modal-overlay: rgb(222 222 222 / 78%);
   --code-bg: #f8f8f8;
   --popover-bg: #f8f8f8;
-  --popover-border:rgb(222, 222, 221);
+  --popover-border: rgb(222, 222, 221);
   --panel-bg: #f8f8f8;
   --panel-gradient: linear-gradient(160deg, #edecec, #d8d7d7);
 }
@@ -18,14 +18,14 @@
 [data-theme="dark"] {
   --bg-color: #232222;
   --text-color: #ffffff;
-  --border-color:rgb(74, 74, 74);
+  --border-color: rgb(74, 74, 74);
   --input-bg: #2d2d2d;
   --button-bg: #3d3d3d;
   --button-hover: #4d4d4d;
   --modal-bg: #1e1d1d;
   --code-bg: #1e1d1d;
   --popover-bg: #2d2d2d;
-  --popover-border:rgb(128, 128, 127);
+  --popover-border: rgb(128, 128, 127);
   --panel-bg: #373737;
   --panel-gradient: linear-gradient(228deg, #4a4949, #393939);
   --modal-overlay: rgb(48 48 48 / 83%);
@@ -173,17 +173,16 @@ body {
 }
 
 .submit-button {
-  background-color: #4caf50;
+  background-color: #2196f3;
   color: white;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 1em;
+  }
 }
 
 .submit-button:hover {
-  background-color: #45a049;
-}
-
-.submit-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+  background-color: #1976d2;
 }
 
 .new-session-button {
@@ -415,7 +414,7 @@ body {
   align-items: center;
   @media (max-width: 768px) {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 1em;
   }
@@ -586,16 +585,6 @@ button:focus,
 button:focus-visible {
   outline: none;
 }
-
-.submit-button {
-  background-color: #2196f3;
-  color: white;
-}
-
-.submit-button:hover {
-  background-color: #1976d2;
-}
-
 .new-session-button {
   background-color: var(--button-bg);
   color: var(--text-color);
