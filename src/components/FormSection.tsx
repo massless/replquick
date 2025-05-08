@@ -2,6 +2,13 @@ import { useState } from "react";
 import { CodeInput } from "./CodeInput";
 import { EvaluationHistory } from "../types";
 
+interface GlobalInfo {
+  name: string;
+  type: string;
+  timestamp: number;
+  size: number;
+}
+
 interface FormSectionProps {
   inputValue: string;
   setInputValue: (value: string) => void;
@@ -15,6 +22,7 @@ interface FormSectionProps {
   currentHistoryIndex: number;
   isDarkMode: boolean;
   width?: number | string;
+  globals: GlobalInfo[];
 }
 
 export function FormSection({
@@ -30,6 +38,7 @@ export function FormSection({
   currentHistoryIndex,
   isDarkMode,
   width,
+  globals,
 }: FormSectionProps) {
   return (
     <div className="form-section" style={width ? { width } : undefined}>
@@ -44,6 +53,7 @@ export function FormSection({
             currentHistoryIndex={currentHistoryIndex}
             isDarkMode={isDarkMode}
             onExamplesSelect={onExamplesSelect}
+            globals={globals}
           />
         </div>
         <div className="button-group">

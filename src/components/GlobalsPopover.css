@@ -1,0 +1,88 @@
+.globals-popover {
+  position: absolute;
+  width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+  z-index: 1000;
+  background: var(--popover-bg);
+  border: 1px solid var(--popover-border);
+  border-radius: 7px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  animation: panelAppear 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  color: var(--text-color);
+
+  @media (max-width: 768px) {
+    width: calc(100dvw - 40px);
+    max-width: 100dvw;
+  }
+}
+
+.globals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.globals-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--text-color);
+}
+
+.globals-list {
+  padding: 16px;
+}
+
+.global-item {
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--input-bg);
+  margin-bottom: 8px;
+}
+
+.global-item:last-child {
+  margin-bottom: 0;
+}
+
+.global-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.global-header code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+
+.global-type {
+  font-size: 0.8em;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.global-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.global-time, .global-size {
+  display: inline-block;
+}

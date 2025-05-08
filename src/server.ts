@@ -68,12 +68,12 @@ app.use(
 );
 
 // Add session debugging middleware
-app.use((req: Request, _res: Response, next: NextFunction) => {
-  console.log('Session ID:', req.sessionID);
-  console.log('Session exists:', !!req.session);
-  console.log('Session touched:', req.session?.touched);
-  next();
-});
+// app.use((req: Request, _res: Response, next: NextFunction) => {
+//   console.log('Session ID:', req.sessionID);
+//   console.log('Session exists:', !!req.session);
+//   console.log('Session touched:', req.session?.touched);
+//   next();
+// });
 
 // Configure CORS
 app.use(cors({

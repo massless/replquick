@@ -9,7 +9,12 @@ interface EvaluationResult {
     message: string;
     stack?: string;
   };
-  newGlobals?: string[];
+  newGlobals?: Array<{
+    name: string;
+    type: string;
+    timestamp: number;
+    size: number;
+  }>;
 }
 
 interface ContextMap {
@@ -18,14 +23,10 @@ interface ContextMap {
 
 export class SessionEvaluator {
   private contexts: Map<string, vm.Context>;
-  private timeout: number;
+  private timeout: number = 5000; // 5 second default timeout
 
   constructor() {
-    // Store contexts by session ID
-    this.contexts = new Map<string, vm.Context>();
-
-    // Default timeout for script execution (in milliseconds)
-    this.timeout = 5000;
+    this.contexts = new Map();
   }
 
   /**
@@ -61,18 +62,45 @@ export class SessionEvaluator {
    * @returns {string[]} List of global variable names
    */
   private getGlobalVariables(context: vm.Context): string[] {
-    return Object.keys(context);
+    const globalVars = Object.keys(context);
+    console.log("[SessionEvaluator] getGlobalVariables", globalVars);
+    return globalVars;
+  }
+
+  /**
+   * Get information about a global variable
+   * @param {vm.Context} context - The VM context
+   * @param {string} name - The name of the global variable
+   * @returns {Object} Information about the global variable
+   */
+  private getGlobalInfo(context: vm.Context, name: string) {
+    const value = context[name];
+    const type = typeof value;
+    const size = new Blob([JSON.stringify(value)]).size;
+    return {
+      name,
+      type,
+      timestamp: Date.now(),
+      size
+    };
   }
 
   /**
    * Get the list of new global variables added during code execution
    * @param {vm.Context} context - The VM context to inspect
    * @param {string[]} beforeVars - List of variables before execution
-   * @returns {string[]} List of newly added global variable names
+   * @returns {Array} List of newly added global variable information
    */
-  private getNewGlobalVariables(context: vm.Context, beforeVars: string[]): string[] {
+  private getNewGlobalVariables(context: vm.Context, beforeVars: string[]): Array<{
+    name: string;
+    type: string;
+    timestamp: number;
+    size: number;
+  }> {
     const afterVars = this.getGlobalVariables(context);
-    return afterVars.filter(v => !beforeVars.includes(v));
+    return afterVars
+      .filter(v => !beforeVars.includes(v))
+      .map(v => this.getGlobalInfo(context, v));
   }
 
   /**
@@ -105,7 +133,7 @@ export class SessionEvaluator {
         displayErrors: true,
       });
 
-      // Get list of new global variables
+      // Get list of new global variables with their information
       const newGlobals = this.getNewGlobalVariables(context, beforeVars);
 
       return {

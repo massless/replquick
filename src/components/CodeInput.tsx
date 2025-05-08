@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { HistoryPanel } from "./HistoryPanel";
 import { ExamplesPopover } from "./ExamplesPopover";
+import { GlobalsPopover } from "./GlobalsPopover";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -17,12 +18,20 @@ interface CodeInputProps {
   onExamplesSelect: (example: string) => void;
   currentHistoryIndex: number;
   isDarkMode: boolean;
+  globals: GlobalInfo[];
 }
 
 interface EvaluationHistory {
   id: number;
   code: string;
   timestamp: number;
+}
+
+interface GlobalInfo {
+  name: string;
+  type: string;
+  timestamp: number;
+  size: number;
 }
 
 export function CodeInput({
@@ -34,13 +43,17 @@ export function CodeInput({
   onExamplesSelect,
   currentHistoryIndex,
   isDarkMode,
+  globals,
 }: CodeInputProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const examplesButtonRef = useRef<HTMLButtonElement>(null);
+  const globalsButtonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
+  const [showGlobals, setShowGlobals] = useState(false);
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
   const [examplesButtonRect, setExamplesButtonRect] = useState<DOMRect | null>(null);
+  const [globalsButtonRect, setGlobalsButtonRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: Event) => {
@@ -95,10 +108,13 @@ export function CodeInput({
         !buttonRef.current.contains(target) &&
         !target.closest(".history-item") &&
         !examplesButtonRef.current?.contains(target) &&
-        !target.closest(".example-item")
+        !target.closest(".example-item") &&
+        !globalsButtonRef.current?.contains(target) &&
+        !target.closest(".global-item")
       ) {
         setShowHistory(false);
         setShowExamples(false);
+        setShowGlobals(false);
       }
     };
 
@@ -122,6 +138,14 @@ export function CodeInput({
     }
   }, [showExamples]);
 
+  useEffect(() => {
+    if (showGlobals && globalsButtonRef.current) {
+      setGlobalsButtonRect(globalsButtonRef.current.getBoundingClientRect());
+    } else {
+      setGlobalsButtonRect(null);
+    }
+  }, [showGlobals]);
+
   const handleHistorySelect = (index: number) => {
     onHistorySelect(index, () => {
       setShowHistory(false);
@@ -140,6 +164,7 @@ export function CodeInput({
           <button ref={buttonRef} onClick={() => {
             setShowHistory(!showHistory);
             setShowExamples(false);
+            setShowGlobals(false);
           }}>
             <svg
               fill="none"
@@ -164,6 +189,7 @@ export function CodeInput({
           <button ref={examplesButtonRef} onClick={() => {
             setShowExamples(!showExamples);
             setShowHistory(false);
+            setShowGlobals(false);
           }}>
             <svg
               fill="none"
@@ -184,6 +210,32 @@ export function CodeInput({
             Examples
           </button>
         </div>
+
+        <div className="globals-toggle">
+          <button ref={globalsButtonRef} onClick={() => {
+            setShowGlobals(!showGlobals);
+            setShowHistory(false);
+            setShowExamples(false);
+          }}>
+            <svg
+              fill="none"
+              strokeWidth="2"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+              <path d="M12 8l0 8"></path>
+              <path d="M8 12l8 0"></path>
+            </svg>
+            Globals
+          </button>
+        </div>
       </div>
 
       {showHistory && (
@@ -202,6 +254,15 @@ export function CodeInput({
           onClose={() => setShowExamples(false)}
           onSelect={handleExampleSelect}
           triggerRect={examplesButtonRect}
+          isDarkMode={isDarkMode}
+        />
+      )}
+
+      {showGlobals && (
+        <GlobalsPopover
+          onClose={() => setShowGlobals(false)}
+          globals={globals}
+          triggerRect={globalsButtonRect}
           isDarkMode={isDarkMode}
         />
       )}
