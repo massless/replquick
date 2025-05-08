@@ -137,6 +137,12 @@ function App() {
     onSelect?.();
   };
 
+  const handleExamplesSelect = (example: string) => {
+    setInputValue(example);
+    setActiveTab("interactive");
+    handleSubmitWithCode(example);
+  };
+
   const handleSubmitWithCode = async (code: string) => {
     console.log("[App] handleSubmitWithCode", { code, sessionId });
     setLoading(true);
@@ -257,6 +263,7 @@ function App() {
           error={error}
           history={history}
           onHistorySelect={handleHistorySelect}
+          onExamplesSelect={handleExamplesSelect}
           currentHistoryIndex={currentHistoryIndex}
           isDarkMode={isDarkMode}
           width={isMobile ? undefined : `calc(100% - ${result && !isMobile ? resultSectionWidth : 0}px)`}

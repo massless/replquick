@@ -1,8 +1,8 @@
+import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus, prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { createPortal } from "react-dom";
 import "./HistoryPanel.css";
-import React from 'react';
 
 interface EvaluationHistory {
   id: number;

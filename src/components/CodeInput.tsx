@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { HistoryPanel } from "./HistoryPanel";
+import { ExamplesPopover } from "./ExamplesPopover";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -13,6 +14,7 @@ interface CodeInputProps {
   onSubmit: () => void;
   history: EvaluationHistory[];
   onHistorySelect: (index: number, hideHistory: () => void) => void;
+  onExamplesSelect: (example: string) => void;
   currentHistoryIndex: number;
   isDarkMode: boolean;
 }
@@ -29,12 +31,16 @@ export function CodeInput({
   onSubmit,
   history,
   onHistorySelect,
+  onExamplesSelect,
   currentHistoryIndex,
   isDarkMode,
 }: CodeInputProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const examplesButtonRef = useRef<HTMLButtonElement>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [showExamples, setShowExamples] = useState(false);
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+  const [examplesButtonRect, setExamplesButtonRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: Event) => {
@@ -87,9 +93,12 @@ export function CodeInput({
       if (
         buttonRef.current &&
         !buttonRef.current.contains(target) &&
-        !target.closest(".history-item")
+        !target.closest(".history-item") &&
+        !examplesButtonRef.current?.contains(target) &&
+        !target.closest(".example-item")
       ) {
         setShowHistory(false);
+        setShowExamples(false);
       }
     };
 
@@ -105,17 +114,33 @@ export function CodeInput({
     }
   }, [showHistory]);
 
+  useEffect(() => {
+    if (showExamples && examplesButtonRef.current) {
+      setExamplesButtonRect(examplesButtonRef.current.getBoundingClientRect());
+    } else {
+      setExamplesButtonRect(null);
+    }
+  }, [showExamples]);
+
   const handleHistorySelect = (index: number) => {
     onHistorySelect(index, () => {
       setShowHistory(false);
     });
   };
 
+  const handleExampleSelect = (code: string) => {
+    onChange(code);
+    onExamplesSelect(code);
+  };
+
   return (
     <div className="code-input-container">
       <div className="code-input-header">
         <div className="history-toggle">
-          <button ref={buttonRef} onClick={() => setShowHistory(!showHistory)}>
+          <button ref={buttonRef} onClick={() => {
+            setShowHistory(!showHistory);
+            setShowExamples(false);
+          }}>
             <svg
               fill="none"
               strokeWidth="2"
@@ -134,6 +159,31 @@ export function CodeInput({
             History
           </button>
         </div>
+
+        <div className="examples-toggle">
+          <button ref={examplesButtonRef} onClick={() => {
+            setShowExamples(!showExamples);
+            setShowHistory(false);
+          }}>
+            <svg
+              fill="none"
+              strokeWidth="2"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2 -2v-14a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v14z"></path>
+              <path d="M3 9h18"></path>
+              <path d="M9 3v18"></path>
+            </svg>
+            Examples
+          </button>
+        </div>
       </div>
 
       {showHistory && (
@@ -144,6 +194,15 @@ export function CodeInput({
           triggerRect={buttonRect}
           isDarkMode={isDarkMode}
           onClose={() => setShowHistory(false)}
+        />
+      )}
+
+      {showExamples && (
+        <ExamplesPopover
+          onClose={() => setShowExamples(false)}
+          onSelect={handleExampleSelect}
+          triggerRect={examplesButtonRect}
+          isDarkMode={isDarkMode}
         />
       )}
 

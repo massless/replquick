@@ -11,6 +11,7 @@ interface FormSectionProps {
   error: string | null;
   history: EvaluationHistory[];
   onHistorySelect: (index: number, onSelect?: () => void) => void;
+  onExamplesSelect: (example: string) => void;
   currentHistoryIndex: number;
   isDarkMode: boolean;
   width?: number | string;
@@ -25,6 +26,7 @@ export function FormSection({
   error,
   history,
   onHistorySelect,
+  onExamplesSelect,
   currentHistoryIndex,
   isDarkMode,
   width,
@@ -41,6 +43,7 @@ export function FormSection({
             onHistorySelect={onHistorySelect}
             currentHistoryIndex={currentHistoryIndex}
             isDarkMode={isDarkMode}
+            onExamplesSelect={onExamplesSelect}
           />
         </div>
         <div className="button-group">
