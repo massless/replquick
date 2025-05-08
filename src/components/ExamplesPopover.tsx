@@ -167,7 +167,7 @@ export function ExamplesPopover({
       }}
     >
       <div className="examples-header">
-        <h3>Code Examples</h3>
+        <h3>Snippets to try</h3>
         <button onClick={onClose} className="close-button">
           <svg
             fill="currentColor"

@@ -36,6 +36,14 @@
   height: 16px;
 }
 
+.examples-toggle button {
+  background: #f0f0f0;
+  color: #000;
+}
+.examples-toggle button:hover {
+  background: #fff;
+}
+
 .code-editor-wrapper {
   flex: 1;
   overflow: hidden;
@@ -50,7 +58,6 @@
   font-family: "Fira Code", "Consolas", monospace;
   background-color: transparent;
 }
-
 
 .code-editor-wrapper .cm-gutters {
   background-color: transparent;
