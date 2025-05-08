@@ -112,7 +112,8 @@ app.post("/eval", (req: Request, res: Response) => {
   const response: EvalResponse = {
     root: rootId,
     serialized: serializer.getSerialized(),
-    sessionId
+    sessionId,
+    newGlobals: evaluated.newGlobals
   };
 
   console.log("[Server] Evaluation successful:", sessionId);

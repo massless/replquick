@@ -9,6 +9,7 @@ interface EvaluationResult {
     message: string;
     stack?: string;
   };
+  newGlobals?: string[];
 }
 
 interface ContextMap {
@@ -55,6 +56,26 @@ export class SessionEvaluator {
   }
 
   /**
+   * Get the list of global variables in a context
+   * @param {vm.Context} context - The VM context to inspect
+   * @returns {string[]} List of global variable names
+   */
+  private getGlobalVariables(context: vm.Context): string[] {
+    return Object.keys(context);
+  }
+
+  /**
+   * Get the list of new global variables added during code execution
+   * @param {vm.Context} context - The VM context to inspect
+   * @param {string[]} beforeVars - List of variables before execution
+   * @returns {string[]} List of newly added global variable names
+   */
+  private getNewGlobalVariables(context: vm.Context, beforeVars: string[]): string[] {
+    const afterVars = this.getGlobalVariables(context);
+    return afterVars.filter(v => !beforeVars.includes(v));
+  }
+
+  /**
    * Evaluate JavaScript code in a session's context
    * @param {string} sessionId - The unique session identifier
    * @param {string} code - JavaScript code to evaluate
@@ -67,6 +88,7 @@ export class SessionEvaluator {
     additionalContext: ContextMap = {}
   ): EvaluationResult {
     const context = this.getContext(sessionId);
+    const beforeVars = this.getGlobalVariables(context);
 
     // Add any temporary context variables
     Object.keys(additionalContext).forEach((key) => {
@@ -83,7 +105,14 @@ export class SessionEvaluator {
         displayErrors: true,
       });
 
-      return { success: true, result };
+      // Get list of new global variables
+      const newGlobals = this.getNewGlobalVariables(context, beforeVars);
+
+      return {
+        success: true,
+        result,
+        newGlobals: newGlobals.length > 0 ? newGlobals : undefined
+      };
     } catch (error) {
       const typedError = error as Error;
       return {
