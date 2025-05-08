@@ -162,6 +162,7 @@ input:checked + .toggle-slider:before {
   gap: 0.5rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  white-space: nowrap;
 }
 
 .clear-data-button:hover {
