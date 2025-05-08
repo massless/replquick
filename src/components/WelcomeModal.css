@@ -14,7 +14,7 @@
 }
 
 .welcome-modal-content {
-  background: linear-gradient(135deg, #767575, #525050fc);
+  background: linear-gradient(135deg, #ededed, #c8bfa9fc);
   padding: 3rem;
   border-radius: 16px;
   max-width: 800px;
@@ -96,7 +96,7 @@
 
 .modal-slogan {
   font-size: 1.2rem;
-  color: var(--text-color);
+  color: #333;
   font-weight: 500;
   opacity: 0.6;
 }
@@ -153,7 +153,7 @@
 }
 
 .modal-button {
-  background: linear-gradient(135deg, #e1451f, #f9903b);
+  background: linear-gradient(135deg, #404040, #3a3a3a);
   color: white;
   border: none;
   padding: 1rem 2.5rem;
@@ -167,8 +167,8 @@
 }
 
 .modal-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transform: translateX(1px) translateY(1px);
+  box-shadow: 0 0 0px 3px #c0c0c0, 0 0 0px 8px #81e4a6, 0 0 0px 10px #9c9c9c;
 }
 
 .modal-button:focus,
