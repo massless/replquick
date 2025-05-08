@@ -116,6 +116,16 @@
 .code-preview {
   opacity: 0.8;
   transition: opacity 0.2s ease;
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 4px;
+}
+
+.code-preview pre {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
 }
 
 .history-item.expanded .code-preview {
@@ -126,6 +136,8 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
+  margin: 0 4px;
+  border-radius: 4px;
 }
 
 .history-item.expanded .code-container {
@@ -139,7 +151,7 @@
   font-family: "Consolas", "Monaco", monospace;
   font-size: 0.9em;
   background: var(--code-bg);
-  padding: 4px;
-  border-radius: 2px;
+  padding: 4px 8px;
+  border-radius: 4px;
   text-align: left;
 }

@@ -163,8 +163,7 @@ export function HistoryPanel({
                   style={isDarkMode ? vscDarkPlus : prism}
                   customStyle={{
                     margin: "0",
-                    padding: "4px",
-                    background: "transparent",
+                    padding: "4px 8px",
                     textAlign: "left",
                     fontSize: "0.8em",
                   }}
