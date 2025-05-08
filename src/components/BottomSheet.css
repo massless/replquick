@@ -1,0 +1,14 @@
+.BottomSheet-view {
+  height: var(--silk-100-lvh-dvh-pct);
+}
+
+.BottomSheet-content {
+  max-width: 700px;
+  height: auto;
+}
+
+.BottomSheet-bleedingBackground {
+  border-radius: 24px;
+  background-color: var(--sheet-bg);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
