@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SettingsModal.css";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -20,16 +21,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+  useEscapeKey(isOpen, onClose);
 
   // Achievement badge logic
   const evalCount = history.length;
@@ -78,7 +70,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content settings-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content settings-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <header>
             <h2>Settings</h2>

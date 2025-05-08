@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import "./ExamplesPopover.css";
 import { useIsMobile } from "../hooks/useIsMobile";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 interface ExamplesPopoverProps {
   onClose: () => void;
@@ -156,16 +157,7 @@ export function ExamplesPopover({
 
   const portalRoot = document.getElementById("portal-root") || document.body;
 
-  // Add ESC key handler
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
+  useEscapeKey(true, onClose);
 
   return createPortal(
     <div

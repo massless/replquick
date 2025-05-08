@@ -6,6 +6,7 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { createPortal } from "react-dom";
 import "./HistoryPanel.css";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 interface EvaluationHistory {
   id: number;
@@ -33,15 +34,7 @@ export function HistoryPanel({
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
   // Add ESC key handler
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
+  useEscapeKey(true, onClose);
 
   const getCodePreview = (code: string) => {
     // Get first line or first 100 characters, whichever is shorter
