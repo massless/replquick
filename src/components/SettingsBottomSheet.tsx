@@ -1,7 +1,6 @@
-"use client";
+import "./SettingsBottomSheet.css";
 import { Sheet } from "@silk-hq/components";
 import { BottomSheet } from "./BottomSheet";
-import "./SettingsModal.css";
 import { useState } from "react";
 
 export const SettingsBottomSheet = ({

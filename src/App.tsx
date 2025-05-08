@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { EvalResponse, EvaluationHistory } from "./types";
+import { Sheet } from "@silk-hq/components";
 import { WelcomeModal } from "./components/WelcomeModal";
-import { SettingsModal } from "./components/SettingsModal";
 import { FormSection } from "./components/FormSection";
 import { ResultSection } from "./components/ResultSection";
 import { useIsMobile } from "./hooks/useIsMobile";
-import "./App.css";
 import { GlobalsPopover } from "./components/GlobalsPopover";
 import { SettingsBottomSheet } from "./components/SettingsBottomSheet";
-import { Sheet } from "@silk-hq/components";
+import "./App.css";
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
@@ -37,7 +36,6 @@ function App() {
     "interactive"
   );
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark" || !savedTheme; // Default to dark mode if no theme is saved
@@ -378,15 +376,6 @@ function App() {
       <WelcomeModal
         isOpen={showWelcomeModal}
         onClose={handleCloseWelcomeModal}
-      />
-
-      <SettingsModal
-        isOpen={showSettingsModal}
-        onClose={() => setShowSettingsModal(false)}
-        sessionId={sessionId}
-        isDarkMode={isDarkMode}
-        onToggleDarkMode={handleToggleDarkMode}
-        history={history}
       />
     </div>
   );
