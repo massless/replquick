@@ -29,7 +29,7 @@ export function FormSection({
   inputValue,
   setInputValue,
   handleSubmit,
-  handleNewSession,
+  handleNewSession: __, // TODO: We're keeping the UX simple for now, but we'll add a new session button in the future
   loading,
   error,
   history,
@@ -66,13 +66,13 @@ export function FormSection({
           >
             {loading ? "Evaluating..." : "⚡ Evaluate"}
           </button>
-          <button
+          {/* <button
             type="button"
             onClick={handleNewSession}
             className="new-session-button"
           >
             New Session
-          </button>
+          </button> */}
         </div>
 
         {error && <div className="error-message">Error: {error}</div>}
