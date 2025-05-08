@@ -42,7 +42,9 @@ function App() {
   });
   const isMobile = useIsMobile();
   const [resultSectionWidth, setResultSectionWidth] = useState(500); // px
-  const [globalsButtonRect, setGlobalsButtonRect] = useState<DOMRect | null>(null);
+  const [globalsButtonRect, setGlobalsButtonRect] = useState<DOMRect | null>(
+    null
+  );
   const [showGlobalsPopover, setShowGlobalsPopover] = useState(false);
 
   // Initialize theme
@@ -138,7 +140,9 @@ function App() {
     // Combine existing and new globals, removing duplicates by name
     const combinedGlobals = [...existingGlobals];
     for (const newGlobal of newGlobals) {
-      const existingIndex = combinedGlobals.findIndex(g => g.name === newGlobal.name);
+      const existingIndex = combinedGlobals.findIndex(
+        (g) => g.name === newGlobal.name
+      );
       if (existingIndex === -1) {
         combinedGlobals.push(newGlobal);
       } else {
@@ -295,7 +299,13 @@ function App() {
   return (
     <div className="app-container">
       <header>
-        <h1 className="app-title">
+        <h1
+          className="app-title"
+          onClick={() => {
+            setInputValue("");
+            setResult(null);
+          }}
+        >
           <img src="/logo.svg" alt="Logo" className="logo" />
         </h1>
 
@@ -333,7 +343,11 @@ function App() {
           onExamplesSelect={handleExamplesSelect}
           currentHistoryIndex={currentHistoryIndex}
           isDarkMode={isDarkMode}
-          width={isMobile ? undefined : `calc(100% - ${result && !isMobile ? resultSectionWidth : 0}px)`}
+          width={
+            isMobile
+              ? undefined
+              : `calc(100% - ${result && !isMobile ? resultSectionWidth : 0}px)`
+          }
           globals={globals}
         />
 
