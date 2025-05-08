@@ -129,6 +129,15 @@ myTodos.addTodo('Learn JavaScript');
 myTodos.addTodo('Build something cool');
 myTodos;`,
   },
+  {
+    id: "empty-function",
+    title: "Empty Function",
+    description: "To write code without making a global",
+    icon: "⚡",
+    code: `(() => {
+  // Write here...
+})();`,
+  },
 ];
 
 export function ExamplesPopover({
