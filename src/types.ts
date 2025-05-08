@@ -16,7 +16,12 @@ export interface EvalResponse {
   root: string
   serialized: Record<string, SerializedValue>
   sessionId?: string
-  newGlobals?: string[]
+  newGlobals?: Array<{
+    name: string;
+    type: string;
+    timestamp: number;
+    size: number;
+  }>
 }
 
 export interface EvaluationHistory {
