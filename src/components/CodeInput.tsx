@@ -7,6 +7,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { EditorView, placeholder } from "@codemirror/view";
+import { useIsMobile } from "../hooks/useIsMobile";
 import "./CodeInput.css";
 
 interface CodeInputProps {
@@ -58,6 +59,7 @@ export function CodeInput({
   const [globalsButtonRect, setGlobalsButtonRect] = useState<DOMRect | null>(
     null
   );
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleKeyDown = (event: Event) => {
@@ -247,6 +249,31 @@ export function CodeInput({
             Examples
           </button>
         </div>
+
+        {value.trim() && (
+          <div className="clear-toggle">
+            <button onClick={() => onChange("")} className="clear-button">
+              <svg
+                fill="none"
+                strokeWidth="2"
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 7h16"></path>
+                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                <path d="M10 12l4 4m0 -4l-4 4"></path>
+              </svg>
+              {!isMobile && "Clear"}
+            </button>
+          </div>
+        )}
       </div>
 
       {showHistory && (
