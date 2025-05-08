@@ -82,111 +82,142 @@ export const SettingsBottomSheet = ({
             <div className="settings-meta">
               {sessionId && (
                 <div className="setting-item">
-                  <div className="session-info" title={sessionId}>
-                    <span className="session-id-label">Session ID:</span>
-                    <span className="session-id-value">
-                      {sessionId.length > 12
-                        ? sessionId.slice(0, 6) + "..." + sessionId.slice(-4)
-                        : sessionId}
-                    </span>
-                    <button
-                      className="copy-session-id"
-                      onClick={handleCopySessionId}
-                      title="Copy Session ID"
-                    >
-                      {copied ? (
-                        "✓"
-                      ) : (
-                        <svg
-                          width="16"
-                          height="16"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <rect x="9" y="9" width="13" height="13" rx="2" />
-                          <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-                        </svg>
-                      )}
-                    </button>
+                  <div className="setting-item-left">
+                    <div className="setting-item-title">Session ID</div>
+                    <div className="setting-item-description">
+                      Unique identifier for your session
+                    </div>
+                  </div>
+                  <div className="setting-item-right">
+                    <div className="session-info">
+                      <span className="session-id-value">
+                        {sessionId.length > 12
+                          ? sessionId.slice(0, 6) + "..." + sessionId.slice(-4)
+                          : sessionId}
+                      </span>
+                      <button
+                        className="copy-session-id"
+                        onClick={handleCopySessionId}
+                        title="Copy Session ID"
+                      >
+                        {copied ? (
+                          "✓"
+                        ) : (
+                          <svg
+                            width="16"
+                            height="16"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                          >
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
 
               <div className="setting-item">
-                <div className="eval-count-badge">
-                  <span className="eval-count">Evaluations: {evalCount}</span>
-                  {badge && (
-                    <span
-                      className={`badge badge-${badgeLabel.toLowerCase()}`}
-                      title={`${badgeLabel} badge`}
-                    >
-                      {badge}
-                    </span>
-                  )}
+                <div className="setting-item-left">
+                  <div className="setting-item-title">Evaluations</div>
+                  <div className="setting-item-description">
+                    Track your progress and earn badges
+                  </div>
+                </div>
+                <div className="setting-item-right">
+                  <div className="eval-count-badge">
+                    <span className="eval-count">{evalCount}</span>
+                    {badge && (
+                      <span
+                        className={`badge badge-${badgeLabel.toLowerCase()}`}
+                        title={`${badgeLabel} badge`}
+                      >
+                        {badge}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
               <div className="setting-item">
-                <label htmlFor="darkMode" className="toggle-label">
-                  <span className="toggle-text">
-                    {isDarkMode ? "Dark mode" : "Light mode"}
-                  </span>
-                  {isDarkMode ? (
-                    <span className="icon-moon" title="Dark mode">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-                      </svg>
-                    </span>
-                  ) : (
-                    <span className="icon-sun" title="Light mode">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <circle cx="12" cy="12" r="5" />
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                      </svg>
-                    </span>
-                  )}
-                </label>
-                <div className="toggle-switch" onClick={onToggleDarkMode}>
-                  <input
-                    type="checkbox"
-                    id="darkMode"
-                    checked={isDarkMode}
-                    onChange={onToggleDarkMode}
-                  />
-                  <span className="toggle-slider"></span>
+                <div className="setting-item-left">
+                  <div className="setting-item-title">Theme</div>
+                  <div className="setting-item-description">
+                    Switch between light and dark mode
+                  </div>
+                </div>
+                <div className="setting-item-right">
+                  <label htmlFor="darkMode" className="toggle-label">
+                    {isDarkMode ? (
+                      <span className="icon-moon" title="Dark mode">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+                        </svg>
+                      </span>
+                    ) : (
+                      <span className="icon-sun" title="Light mode">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <circle cx="12" cy="12" r="5" />
+                          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        </svg>
+                      </span>
+                    )}
+                  </label>
+                  <div className="toggle-switch" onClick={onToggleDarkMode}>
+                    <input
+                      type="checkbox"
+                      id="darkMode"
+                      checked={isDarkMode}
+                      onChange={onToggleDarkMode}
+                    />
+                    <span className="toggle-slider"></span>
+                  </div>
                 </div>
               </div>
 
               <div className="setting-item">
-                <button className="clear-data-button" onClick={handleClearData}>
-                  <svg
-                    width="16"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
+                <div className="setting-item-left">
+                  <div className="setting-item-title">Data Management</div>
+                  <div className="setting-item-description">
+                    Clear all your local data and start fresh
+                  </div>
+                </div>
+                <div className="setting-item-right">
+                  <button
+                    className="clear-data-button"
+                    onClick={handleClearData}
                   >
-                    <path d="M3 6h18M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" />
-                  </svg>
-                  Clear all data
-                </button>
+                    <svg
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M3 6h18M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" />
+                    </svg>
+                    Clear Data
+                  </button>
+                </div>
               </div>
             </div>
           </div>
