@@ -1,15 +1,6 @@
-import React from "react";
-import { createPortal } from "react-dom";
-import "./ExamplesPopover.css";
-import { useIsMobile } from "../hooks/useIsMobile";
-import { useEscapeKey } from "../hooks/useEscapeKey";
-
-interface ExamplesPopoverProps {
-  onClose: () => void;
-  onSelect: (code: string) => void;
-  triggerRect: DOMRect | null;
-  isDarkMode: boolean;
-}
+import { Sheet } from "@silk-hq/components";
+import { LongSheet } from "./LongSheet";
+import "./ExamplesSheet.css";
 
 interface ExampleItem {
   id: string;
@@ -141,67 +132,76 @@ myTodos;`,
   },
 ];
 
-export function ExamplesPopover({
+interface ExamplesSheetProps {
+  onClose: () => void;
+  onSelect: (code: string) => void;
+  presentTrigger: React.ReactNode;
+}
+
+const ExamplesSheet = ({
   onClose,
   onSelect,
-  triggerRect,
-}: ExamplesPopoverProps) {
-  if (!triggerRect) return null;
-
-  const isMobile = useIsMobile();
-
+  presentTrigger,
+}: ExamplesSheetProps) => {
   const handleSelect = (code: string) => {
     onSelect(code);
     onClose();
   };
 
-  const portalRoot = document.getElementById("portal-root") || document.body;
+  return (
+    <LongSheet
+      className="ExampleLongSheet-content"
+      presentTrigger={presentTrigger}
+      sheetContent={
+        <div className="ExampleLongSheet-article">
+          <Sheet.Trigger action="dismiss" asChild>
+            <button className={`ExampleLongSheet-dismissTrigger`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`ExampleLongSheet-dismissTriggerIcon`}
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </Sheet.Trigger>
+          <div className="ExampleLongSheet-articleContent">
+            <Sheet.Title className="ExampleLongSheet-title" asChild>
+              <h1>Snippets</h1>
+            </Sheet.Title>
+            <h2 className="ExampleLongSheet-subtitle">
+              Try any of these snippets to get started.
+            </h2>
 
-  useEscapeKey(true, onClose);
-
-  return createPortal(
-    <div
-      className="examples-popover"
-      style={{
-        top: triggerRect.bottom + window.scrollY + 8,
-        left: isMobile ? 20 : triggerRect.left + window.scrollX,
-      }}
-    >
-      <div className="examples-header">
-        <h3>Snippets to try</h3>
-        <button onClick={onClose} className="close-button">
-          <svg
-            fill="currentColor"
-            strokeWidth="0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            height="1em"
-            width="1em"
-          >
-            <path
-              fillRule="evenodd"
-              d="m7.116 8-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </button>
-      </div>
-      <div className="examples-grid">
-        {examples.map((example) => (
-          <button
-            key={example.id}
-            className="example-item"
-            onClick={() => handleSelect(example.code)}
-          >
-            <span className="example-icon">{example.icon}</span>
-            <div className="example-content">
-              <h4>{example.title}</h4>
-              <p>{example.description}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>,
-    portalRoot
+            <section className="ExampleLongSheet-articleBody">
+              {examples.map((example) => (
+                <Sheet.Trigger action="dismiss" asChild>
+                  <button
+                    key={example.id}
+                    className="ExampleCard-exampleItem"
+                    onClick={() => handleSelect(example.code)}
+                  >
+                    <span className="ExampleCard-exampleIcon">
+                      {example.icon}
+                    </span>
+                    <div className="ExampleCard-exampleContent">
+                      <h4>{example.title}</h4>
+                      <p>{example.description}</p>
+                    </div>
+                  </button>
+                </Sheet.Trigger>
+              ))}
+            </section>
+          </div>
+        </div>
+      }
+    />
   );
-}
+};
+
+export default ExamplesSheet;

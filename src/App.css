@@ -224,9 +224,9 @@
     rgba(15, 209, 64, 1)
   );
 
-  :where([data-silk~="a11"]) {
+  /* :where([data-silk~="a11"]) {
     background-color: var(--silk-defaults, var(--sheet-bg));
-  }
+  } */
 }
 
 [data-theme="dark"] {

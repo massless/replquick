@@ -1,0 +1,131 @@
+.ExampleLongSheet-article {
+  /* INNER-LAYOUT */
+  position: relative;
+  display: grid;
+  background-color: var(--sheet-bg);
+}
+
+.ExampleLongSheet-dismissTrigger {
+  /* SELF-LAYOUT */
+  position: absolute;
+  justify-self: end;
+  top: var(--size-8);
+  right: var(--size-8);
+  width: 32px;
+  height: 32px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--button-bg);
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--sheet-text-primary);
+}
+
+.ExampleLongSheet-dismissTriggerIcon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5px;
+}
+
+.ExampleLongSheet-articleContent {
+  /* SELF-LAYOUT */
+  justify-self: center;
+  width: min(100% - var(--size-16), 800px);
+
+  /* INNER-LAYOUT */
+  padding-block: var(--size-11) var(--size-12);
+  display: grid;
+  place-content: center;
+}
+@media (min-width: 1000px) {
+  .ExampleLongSheet-articleContent {
+    /* SELF-LAYOUT */
+    padding-block: var(--size-17);
+  }
+}
+
+.ExampleLongSheet-title {
+  /* SELF-LAYOUT */
+  margin-bottom: var(--size-6);
+  justify-self: center;
+  max-width: 600px;
+
+  /* TEXT */
+  text-align: center;
+  text-wrap: balance;
+  line-height: var(--line-height-3);
+  font-size: var(--font-size-7);
+  font-weight: var(--font-weight-8);
+  color: var(--sheet-text-primary);
+}
+@media (min-width: 1000px) {
+  .ExampleLongSheet-title {
+    /* SELF-LAYOUT */
+    margin-bottom: var(--size-10);
+
+    /* TEXT */
+    font-size: var(--font-size-9);
+  }
+}
+
+.ExampleLongSheet-subtitle {
+  /* TEXT */
+  text-align: center;
+  text-wrap: balance;
+  text-wrap: pretty;
+  line-height: var(--line-height-4);
+  font-size: var(--font-size-5);
+  font-weight: var(--font-weight-5);
+  color: var(--sheet-text-secondary);
+}
+@media (min-width: 1000px) {
+  .ExampleLongSheet-subtitle {
+    /* TEXT */
+    text-align: center;
+    line-height: var(--line-height-4);
+    font-size: var(--font-size-6);
+  }
+}
+
+.ExampleLongSheet-author {
+  /* SELF-LAYOUT */
+  margin-top: var(--size-8);
+
+  /* TEXT */
+  text-align: center;
+  font-size: var(--font-size-2);
+  color: var(--gray-6);
+}
+@media (min-width: 1000px) {
+  .ExampleLongSheet-author {
+    margin-top: var(--size-10);
+  }
+}
+
+.ExampleLongSheet-authorName {
+  /* TEXT */
+  font-weight: var(--font-weight-5);
+  color: var(--sheet-text-secondary);
+}
+
+.ExampleLongSheet-articleBody {
+  /* SELF-LAYOUT */
+  margin-top: var(--size-13);
+  display: grid;
+  gap: var(--size-6);
+
+  /* TEXT */
+  line-height: var(--line-height-5);
+  font-size: var(--font-size-4);
+  color: var(--sheet-text-primary);
+}
+@media (min-width: 1000px) {
+  .ExampleLongSheet-articleBody {
+    /* SELF-LAYOUT */
+    margin-top: var(--size-17);
+  }
+}

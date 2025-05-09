@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import { Sheet } from "@silk-hq/components";
 import { HistoryPanel } from "./HistoryPanel";
-import { ExamplesPopover } from "./ExamplesPopover";
 import { GlobalsPopover } from "./GlobalsPopover";
+import ExamplesSheet from "./ExamplesSheet";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -221,34 +222,42 @@ export function CodeInput({
           </button>
         </div>
 
-        <div className="examples-toggle">
-          <button
-            ref={examplesButtonRef}
-            onClick={() => {
-              setShowExamples(!showExamples);
-              setShowHistory(false);
-              setShowGlobals(false);
-            }}
-          >
-            <svg
-              fill="none"
-              strokeWidth="2"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2 -2v-14a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v14z"></path>
-              <path d="M3 9h18"></path>
-              <path d="M9 3v18"></path>
-            </svg>
-            Examples
-          </button>
-        </div>
+        <ExamplesSheet
+          presentTrigger={
+            <Sheet.Trigger asChild>
+              <div className="examples-toggle">
+                <button
+                  ref={examplesButtonRef}
+                  onClick={() => {
+                    setShowExamples(!showExamples);
+                    setShowHistory(false);
+                    setShowGlobals(false);
+                  }}
+                >
+                  <svg
+                    fill="none"
+                    strokeWidth="2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2 -2v-14a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v14z"></path>
+                    <path d="M3 9h18"></path>
+                    <path d="M9 3v18"></path>
+                  </svg>
+                  Examples
+                </button>
+              </div>
+            </Sheet.Trigger>
+          }
+          onClose={() => setShowExamples(false)}
+          onSelect={handleExampleSelect}
+        />
 
         {value.trim() && (
           <div className="clear-toggle">
