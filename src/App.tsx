@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { EvalResponse, EvaluationHistory } from "./types";
-import { Sheet } from "@silk-hq/components";
+import { Sheet, SheetStack } from "@silk-hq/components";
 import { WelcomeModal } from "./components/WelcomeModal";
 import { FormSection } from "./components/FormSection";
 import { ResultSection } from "./components/ResultSection";
@@ -8,6 +8,8 @@ import { useIsMobile } from "./hooks/useIsMobile";
 import { GlobalsPopover } from "./components/GlobalsPopover";
 import { SettingsBottomSheet } from "./components/SettingsBottomSheet";
 import "./App.css";
+import MainSidebar from "./components/MainSidebar";
+import StackExample from "./components/StackExample";
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
@@ -292,44 +294,30 @@ function App() {
     localStorage.setItem("hasVisitedBefore", "true");
   };
 
-  const handleToggleDarkMode = () => {
+  const onToggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
 
   return (
     <div className="app-container">
       <header>
-        <h1
-          className="app-title"
-          onClick={() => {
-            setInputValue("");
-            setResult(null);
-          }}
-        >
-          <img src="/logo.svg" alt="Logo" className="logo" />
-        </h1>
-
-        <SettingsBottomSheet
+        <MainSidebar
           presentTrigger={
-            <Sheet.Trigger className="settings-button">
-              <svg
-                fill="currentColor"
-                strokeWidth="0"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                height="1em"
-                width="1em"
+            <Sheet.Trigger asChild>
+              <h1
+                className="app-title"
+                onClick={() => {
+                  setInputValue("");
+                  setResult(null);
+                }}
               >
-                <path
-                  fill="currentColor"
-                  d="m12 1 9.5 5.5v11L12 23l-9.5-5.5v-11L12 1Zm0 2.311L4.5 7.653v8.694l7.5 4.342 7.5-4.342V7.653L12 3.311ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-                ></path>
-              </svg>
+                <img src="/logo.svg" alt="Logo" className="logo" />
+              </h1>
             </Sheet.Trigger>
           }
           sessionId={sessionId}
           isDarkMode={isDarkMode}
-          onToggleDarkMode={handleToggleDarkMode}
+          onToggleDarkMode={onToggleDarkMode}
           history={history}
         />
       </header>

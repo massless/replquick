@@ -1,24 +1,17 @@
-import React, { useState } from "react";
-import { Sheet } from "@silk-hq/components";
-import { useEscapeKey } from "../hooks/useEscapeKey";
+import React from "react";
+import { Sheet, SheetId, SheetRootProps } from "@silk-hq/components";
 import "./BottomSheet.css";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+type SheetRootDivProps = Omit<SheetRootProps, "license" | "children"> &
+  React.HTMLAttributes<HTMLDivElement>;
+interface Props extends SheetRootDivProps {
   presentTrigger: React.ReactNode;
   sheetContent: React.ReactNode;
 }
 
 const BottomSheet = ({ presentTrigger, sheetContent, ...restProps }: Props) => {
-  const [presented, setPresented] = useState(false);
-  useEscapeKey(presented, setPresented);
-
   return (
-    <Sheet.Root
-      license="commercial"
-      presented={presented}
-      onPresentedChange={setPresented}
-      {...restProps}
-    >
+    <Sheet.Root license="commercial" {...restProps}>
       {presentTrigger}
       <Sheet.Portal>
         <Sheet.View

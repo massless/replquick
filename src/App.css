@@ -223,6 +223,10 @@
     rgba(107, 245, 142, 1) 120deg,
     rgba(15, 209, 64, 1)
   );
+
+  :where([data-silk~="a11"]) {
+    background-color: var(--silk-defaults, var(--sheet-bg));
+  }
 }
 
 [data-theme="dark"] {
@@ -632,18 +636,17 @@ body {
 
 .app-container > header {
   flex: none;
-  padding: 1em 0.5em;
+  padding: 1.5em 0.75em;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
   gap: 1.3em;
+  border-right: 1px dashed var(--border-color);
 
   @media (max-width: 768px) {
     flex-direction: row;
-    justify-content: flex-end;
     align-items: center;
-    padding: 1em;
+    padding: 1.75em 1em 0.5em;
   }
 }
 
@@ -851,6 +854,7 @@ button:focus-visible {
   gap: 1rem;
   margin: 0;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .app-title .logo {
@@ -881,4 +885,8 @@ button:focus-visible {
 
 .slide-in-bottom {
   animation: slideInFromBottom 0.3s ease-out forwards !important;
+}
+
+.SheetWithStacking-content {
+  background: red;
 }

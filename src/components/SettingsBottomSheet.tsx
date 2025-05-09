@@ -1,16 +1,18 @@
-import "./SettingsBottomSheet.css";
-import { Sheet } from "@silk-hq/components";
+import { Sheet, SheetId } from "@silk-hq/components";
 import { BottomSheet } from "./BottomSheet";
 import { useState } from "react";
+import "./SettingsBottomSheet.css";
 
 export const SettingsBottomSheet = ({
   presentTrigger,
+  componentId,
   sessionId,
   isDarkMode,
   onToggleDarkMode,
   history,
 }: {
-  presentTrigger: React.ReactNode;
+  presentTrigger?: React.ReactNode;
+  componentId?: SheetId;
   sessionId: string;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
@@ -63,6 +65,7 @@ export const SettingsBottomSheet = ({
 
   return (
     <BottomSheet
+      componentId={componentId}
       presentTrigger={presentTrigger}
       sheetContent={
         <div className={"ExampleBottomSheet-root"}>
@@ -145,7 +148,7 @@ export const SettingsBottomSheet = ({
 
               <div className="setting-item">
                 <div className="setting-item-left">
-                  <div className="setting-item-title">Theme</div>
+                  <div className="setting-item-title">Appearance</div>
                   <div className="setting-item-description">
                     Switch between light and dark mode
                   </div>
