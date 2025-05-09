@@ -31,10 +31,8 @@ export function HistoryPanel({
   isDarkMode,
   onClose,
 }: HistoryPanelProps) {
-  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
-
-  // Add ESC key handler
   useEscapeKey(true, onClose);
+  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
   const getCodePreview = (code: string) => {
     // Get first line or first 100 characters, whichever is shorter

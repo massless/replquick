@@ -1,8 +1,8 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import "./GlobalsPopover.css";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { useEscapeKey } from "../hooks/useEscapeKey";
+import "./GlobalsPopover.css";
 
 interface GlobalInfo {
   name: string;
@@ -23,9 +23,10 @@ export function GlobalsPopover({
   globals,
   triggerRect,
 }: GlobalsPopoverProps) {
-  if (!triggerRect) return null;
-
   const isMobile = useIsMobile();
+  useEscapeKey(true, onClose);
+
+  if (!triggerRect) return null;
 
   const formatBytes = (bytes: number): string => {
     if (bytes === 0) return "0 B";
@@ -39,10 +40,12 @@ export function GlobalsPopover({
     return new Date(timestamp).toLocaleTimeString();
   };
 
-  // Add ESC key handler
-  useEscapeKey(true, onClose);
+  const portalRoot = document.getElementById("portal-root");
+  if (!portalRoot) {
+    return null;
+  }
 
-  const portalRoot = document.getElementById("portal-root") || document.body;
+  if (!triggerRect || !portalRoot) return null;
 
   return createPortal(
     <div
