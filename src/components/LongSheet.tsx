@@ -34,7 +34,7 @@ const LongSheet = React.forwardRef<HTMLDivElement, Props>(
       }
     }, [restingOutside]);
 
-    // Handle clicks outside the LongSheet
+    // Handle clicks outside this component
     useEffect(() => {
       if (!presented) return;
 

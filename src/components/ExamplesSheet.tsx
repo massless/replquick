@@ -1,7 +1,6 @@
 import { Sheet } from "@silk-hq/components";
 import { LongSheet } from "./LongSheet";
 import "./ExamplesSheet.css";
-import { useEffect, useRef, useState } from "react";
 
 interface ExampleItem {
   id: string;
