@@ -129,3 +129,99 @@
     margin-top: var(--size-17);
   }
 }
+
+.ExampleCard-exampleItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  border: none;
+  border-radius: 1.5rem;
+  background: var(--button-bg, #f8f8fa);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06),
+    0 1.5px 4px 0 rgba(0, 0, 0, 0.03);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--sheet-text-primary, #222);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.08s;
+  cursor: pointer;
+  gap: 1.1rem;
+  min-height: 4.5rem;
+  outline: none;
+}
+.ExampleCard-exampleItem:active {
+  background: var(--button-hover, #ececf0);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+  transform: scale(0.98);
+}
+.ExampleCard-exampleItem:focus-visible {
+  box-shadow: 0 0 0 3px #007aff44, 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+}
+.ExampleCard-exampleIcon {
+  font-size: 2.1rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04);
+  margin-right: 0.5rem;
+}
+.ExampleCard-exampleContent {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.ExampleCard-exampleContent h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.15em 0;
+  color: inherit;
+  letter-spacing: -0.01em;
+}
+.ExampleCard-exampleContent p {
+  font-size: 0.98rem;
+  color: var(--sheet-text-secondary, #666);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+}
+.ExampleCard-chevron {
+  font-size: 2rem;
+  color: #bdbdbd;
+  margin-left: 1rem;
+  flex-shrink: 0;
+  user-select: none;
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+}
+.ExampleCard-exampleItem:hover .ExampleCard-chevron,
+.ExampleCard-exampleItem:active .ExampleCard-chevron {
+  color: #007aff;
+}
+@media (max-width: 600px) {
+  .ExampleCard-exampleItem {
+    font-size: 1rem;
+    padding: 1rem 1.1rem;
+    min-height: 3.5rem;
+  }
+  .ExampleCard-exampleIcon {
+    font-size: 1.5rem;
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+  .ExampleCard-chevron {
+    font-size: 1.5rem;
+    margin-left: 0.7rem;
+  }
+}

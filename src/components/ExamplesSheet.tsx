@@ -180,11 +180,11 @@ const ExamplesSheet = ({
 
             <section className="ExampleLongSheet-articleBody">
               {examples.map((example) => (
-                <Sheet.Trigger action="dismiss" asChild>
+                <Sheet.Trigger action="dismiss" asChild key={example.id}>
                   <button
-                    key={example.id}
                     className="ExampleCard-exampleItem"
                     onClick={() => handleSelect(example.code)}
+                    aria-label={`Insert example: ${example.title}`}
                   >
                     <span className="ExampleCard-exampleIcon">
                       {example.icon}
@@ -193,6 +193,9 @@ const ExamplesSheet = ({
                       <h4>{example.title}</h4>
                       <p>{example.description}</p>
                     </div>
+                    <span className="ExampleCard-chevron" aria-hidden="true">
+                      ›
+                    </span>
                   </button>
                 </Sheet.Trigger>
               ))}
