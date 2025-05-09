@@ -22,6 +22,7 @@ export function GlobalsPopover({
   onClose,
   globals,
   triggerRect,
+  isDarkMode,
 }: GlobalsPopoverProps) {
   const isMobile = useIsMobile();
   useEscapeKey(true, onClose);
@@ -52,16 +53,49 @@ export function GlobalsPopover({
       className="globals-popover"
       style={{
         top: triggerRect.bottom + window.scrollY + 8,
-        left: isMobile ? 20 : triggerRect.left + window.scrollX,
+        left: isMobile ? 0 : triggerRect.left + window.scrollX,
+        right: isMobile ? 0 : undefined,
+        margin: isMobile ? "0 auto" : undefined,
+        width: isMobile ? "100vw" : undefined,
+        maxWidth: isMobile ? "100vw" : 400,
+        borderRadius: isMobile ? "24px 24px 0 0" : "20px",
+        boxShadow: isMobile
+          ? "0 -2px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.03)"
+          : "0 4px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.03)",
+        paddingBottom: isMobile ? 24 : undefined,
       }}
     >
+      <div className="globals-header">
+        <h3>Globals</h3>
+        <button
+          className="globals-close-btn"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="globals-close-icon"
+            width={22}
+            height={22}
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
       <div className="globals-list">
         {globals.length === 0 ? (
           <div className="empty-state">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -77,22 +111,24 @@ export function GlobalsPopover({
             <p>No globals yet</p>
           </div>
         ) : (
-          globals.map((global, index) => (
-            <div key={index} className="global-item">
-              <div className="global-header">
-                <code>{global.name}</code>
-                <span className="global-type">{global.type}</span>
+          <div className="globals-items">
+            {globals.map((global, index) => (
+              <div key={index} className="global-item">
+                <div className="global-header">
+                  <code>{global.name}</code>
+                  <span className="global-type">{global.type}</span>
+                </div>
+                <div className="global-details">
+                  <span className="global-time" title="Added at">
+                    {formatDate(global.timestamp)}
+                  </span>
+                  <span className="global-size" title="Size in memory">
+                    {formatBytes(global.size)}
+                  </span>
+                </div>
               </div>
-              <div className="global-details">
-                <span className="global-time" title="Added at">
-                  {formatDate(global.timestamp)}
-                </span>
-                <span className="global-size" title="Size in memory">
-                  {formatBytes(global.size)}
-                </span>
-              </div>
-            </div>
-          ))
+            ))}
+          </div>
         )}
       </div>
     </div>,
