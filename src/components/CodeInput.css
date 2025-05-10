@@ -105,7 +105,7 @@
 }
 
 .code-editor-wrapper .cm-gutters {
-  background-color: transparent;
+  background-color: var(--bg-color);
 }
 
 /* .code-editor-wrapper .cm-editor.cm-focused {
@@ -131,4 +131,10 @@
   color: var(--placeholder-color, #888);
   display: inline-block;
   margin-top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.code-editor-wrapper .cm-content {
+  flex: 1;
 }
