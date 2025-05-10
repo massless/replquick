@@ -20,6 +20,7 @@ interface CodeInputProps {
   history: EvaluationHistory[];
   onHistorySelect: (index: number) => void;
   onExamplesSelect: (example: string) => void;
+  onClear: () => void;
   currentHistoryIndex: number;
   result: EvalResponse | null;
   isDarkMode: boolean;
@@ -43,6 +44,7 @@ export function CodeInput({
   value,
   onChange,
   onSubmit,
+  onClear,
   loading,
   history,
   onHistorySelect,
@@ -165,7 +167,14 @@ export function CodeInput({
         </button>
 
         {value.trim() && (
-          <button onClick={() => onChange("")} className="clear-button">
+          <button
+            onClick={() => {
+              onChange("");
+              setShowResults(false);
+              onClear();
+            }}
+            className="clear-button"
+          >
             <svg
               fill="none"
               strokeWidth="2"
@@ -275,7 +284,10 @@ export function CodeInput({
         />
 
         <div className="results-toggle toggle-button">
-          <button disabled={!result}>
+          <button
+            disabled={!result}
+            onClick={() => setShowResults(!showResults)}
+          >
             <svg
               fill="none"
               strokeWidth="2"

@@ -19,6 +19,7 @@ interface FormSectionProps {
   result: EvalResponse | null;
   onHistorySelect: (index: number, onSelect?: () => void) => void;
   onExamplesSelect: (example: string) => void;
+  onClear: () => void;
   currentHistoryIndex: number;
   isDarkMode: boolean;
   width?: number | string;
@@ -35,6 +36,7 @@ export function FormSection({
   history,
   onHistorySelect,
   onExamplesSelect,
+  onClear,
   currentHistoryIndex,
   result,
   isDarkMode,
@@ -57,6 +59,7 @@ export function FormSection({
             onExamplesSelect={onExamplesSelect}
             globals={globals}
             loading={loading}
+            onClear={onClear}
           />
         </div>
 

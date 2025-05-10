@@ -243,6 +243,12 @@ function App() {
     handleSubmitWithCode(inputValue);
   };
 
+  const handleClear = () => {
+    setInputValue("");
+    setResult(null);
+    setError(null);
+  };
+
   const handleNewSession = async () => {
     console.log("[App] handleNewSession", { sessionId });
 
@@ -312,6 +318,7 @@ function App() {
           result={result}
           onHistorySelect={handleHistorySelect}
           onExamplesSelect={handleExamplesSelect}
+          onClear={handleClear}
           currentHistoryIndex={currentHistoryIndex}
           isDarkMode={isDarkMode}
           globals={globals}
