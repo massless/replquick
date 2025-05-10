@@ -11,6 +11,7 @@
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(8px);
 }
 
 .welcome-modal-content {
@@ -202,8 +203,8 @@
 @media (max-width: 768px) {
   .welcome-modal-content {
     padding: 2rem;
-    margin: auto 1rem;
-    max-width: calc(100dvw - 6em);
+    margin: auto 0;
+    max-width: calc(100dvw - 2em);
   }
 
   .modal-title {
