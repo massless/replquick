@@ -631,6 +631,15 @@ body {
   word-wrap: break-word;
 }
 
+.debug-view::-webkit-scrollbar {
+  display: none;
+}
+
+.debug-view {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .interactive-view strong {
   color: #2c3e50;
   margin-right: 0.5rem;

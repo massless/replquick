@@ -15,6 +15,15 @@
   height: 100%;
 }
 
+.json-viewer::-webkit-scrollbar {
+  display: none;
+}
+
+.json-viewer {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .interactive-view-toggle {
   cursor: pointer;
   user-select: none;
