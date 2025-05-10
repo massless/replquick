@@ -106,6 +106,12 @@
 
 .code-editor-wrapper .cm-gutters {
   background-color: var(--bg-color);
+  border: 0;
+}
+
+.code-editor-wrapper .cm-activeLine,
+.code-editor-wrapper .cm-activeLineGutter {
+  background-color: var(--sheet-bg);
 }
 
 /* .code-editor-wrapper .cm-editor.cm-focused {

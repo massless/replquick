@@ -284,27 +284,21 @@ function App() {
 
   return (
     <div className="app-container">
-      <header>
-        <MainSidebar
-          presentTrigger={
-            <Sheet.Trigger asChild>
-              <h1
-                className="app-title"
-                // onClick={() => {
-                //   setInputValue("");
-                //   setResult(null);
-                // }}
-              >
+      <MainSidebar
+        presentTrigger={
+          <Sheet.Trigger asChild>
+            <header>
+              <h1 className="app-title">
                 <img src="/logo.svg" alt="Logo" className="logo" />
               </h1>
-            </Sheet.Trigger>
-          }
-          sessionId={sessionId}
-          isDarkMode={isDarkMode}
-          onToggleDarkMode={onToggleDarkMode}
-          history={history}
-        />
-      </header>
+            </header>
+          </Sheet.Trigger>
+        }
+        sessionId={sessionId}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={onToggleDarkMode}
+        history={history}
+      />
 
       <div className="main-content">
         <FormSection
