@@ -62,8 +62,8 @@ const GlobalsSheet = ({
               <h1>Globals</h1>
             </Sheet.Title>
             <h2 className="ExampleLongSheet-subtitle">
-              Displays a list of all custom global variables, including their
-              type, creation time, and memory size.
+              Displays a list of all <em>custom</em> global variables, including
+              their type, creation time, and memory size.
             </h2>
 
             <section className="ExampleLongSheet-articleBody">
