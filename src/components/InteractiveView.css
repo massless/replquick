@@ -12,6 +12,7 @@
   text-align: left;
   font-family: monospace;
   color: var(--text-color);
+  height: 100%;
 }
 
 .interactive-view-toggle {

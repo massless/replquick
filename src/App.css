@@ -384,6 +384,7 @@ body {
   gap: 1rem;
   @media (max-width: 768px) {
     justify-content: flex-end;
+    padding: 0 1em;
   }
 }
 
@@ -397,27 +398,54 @@ body {
 }
 
 .submit-button,
-.new-session-button {
+.new-session-button,
+.clear-button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em;
+  max-height: 34px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 1em;
+    border-radius: 8px;
+    max-height: none;
+    height: 3em;
+  }
 }
 
 .submit-button {
   background-color: #2196f3;
   color: white;
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 1em;
-    border-radius: 8px;
-  }
 }
 
 .submit-button:hover {
   background-color: #1976d2;
+}
+
+.clear-button {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+  animation: fadeIn 0.2s ease-in-out;
+
+  @media (max-width: 768px) {
+    width: fit-content;
+    white-space: nowrap;
+    flex: none;
+    gap: 0.3em;
+  }
+}
+
+.clear-button:hover {
+  background: #fecaca;
+  border-color: #f87171;
 }
 
 .new-session-button {
@@ -586,6 +614,7 @@ body {
 .debug-view,
 .interactive-view {
   overflow: auto;
+  height: 100%;
 }
 
 .debug-view pre,
@@ -631,6 +660,7 @@ body {
   background-color: var(--bg-color);
   @media (max-width: 768px) {
     flex-direction: column;
+    height: 100dvh;
   }
 }
 
@@ -714,8 +744,8 @@ body {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
 }
 
 .tab-button {
@@ -750,7 +780,7 @@ body {
 @media (max-width: 1024px) {
   .main-content {
     flex-direction: column;
-    padding: 0 1em;
+    padding: 0;
     gap: 2em;
   }
 
@@ -765,7 +795,7 @@ body {
   .form-section {
     min-width: unset;
     width: 100%;
-    height: fit-content;
+    height: 100%;
     flex: none;
   }
 

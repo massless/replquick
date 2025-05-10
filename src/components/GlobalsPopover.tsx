@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { useEscapeKey } from "../hooks/useEscapeKey";
@@ -22,10 +22,18 @@ export function GlobalsPopover({
   onClose,
   globals,
   triggerRect,
-  isDarkMode,
 }: GlobalsPopoverProps) {
   const isMobile = useIsMobile();
   useEscapeKey(true, onClose);
+
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const [popoverHeight, setPopoverHeight] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (popoverRef.current) {
+      setPopoverHeight(popoverRef.current.offsetHeight);
+    }
+  }, [globals, isMobile]);
 
   if (!triggerRect) return null;
 
@@ -50,9 +58,15 @@ export function GlobalsPopover({
 
   return createPortal(
     <div
+      ref={popoverRef}
       className="globals-popover"
       style={{
-        top: triggerRect.bottom + window.scrollY + 8,
+        top:
+          !isMobile && popoverHeight != null
+            ? triggerRect.top + window.scrollY - popoverHeight - 8
+            : isMobile
+            ? undefined
+            : triggerRect.bottom + window.scrollY + 8, // fallback for first render
         left: isMobile ? 0 : triggerRect.left + window.scrollX,
         right: isMobile ? 0 : undefined,
         margin: isMobile ? "0 auto" : undefined,

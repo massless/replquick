@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
 import { EvalResponse, EvaluationHistory } from "./types";
-import { Sheet, SheetStack } from "@silk-hq/components";
+import { Sheet } from "@silk-hq/components";
 import { WelcomeModal } from "./components/WelcomeModal";
 import { FormSection } from "./components/FormSection";
-import { ResultSection } from "./components/ResultSection";
-import { useIsMobile } from "./hooks/useIsMobile";
-import { GlobalsPopover } from "./components/GlobalsPopover";
-import { SettingsBottomSheet } from "./components/SettingsBottomSheet";
-import "./App.css";
 import MainSidebar from "./components/MainSidebar";
-import StackExample from "./components/StackExample";
+import "./App.css";
 
 const DB_NAME = "replquick-history";
 const STORE_NAME = "evaluations";
@@ -34,20 +29,11 @@ function App() {
   const [history, setHistory] = useState<EvaluationHistory[]>([]);
   const [globals, setGlobals] = useState<GlobalInfo[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
-  const [activeTab, setActiveTab] = useState<"debug" | "interactive">(
-    "interactive"
-  );
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark" || !savedTheme; // Default to dark mode if no theme is saved
   });
-  const isMobile = useIsMobile();
-  const [resultSectionWidth, setResultSectionWidth] = useState(500); // px
-  const [globalsButtonRect, setGlobalsButtonRect] = useState<DOMRect | null>(
-    null
-  );
-  const [showGlobalsPopover, setShowGlobalsPopover] = useState(false);
 
   // Initialize theme
   useEffect(() => {
@@ -199,7 +185,6 @@ function App() {
     } else {
       const code = history[index].code;
       setInputValue(code);
-      setActiveTab("interactive");
       handleSubmitWithCode(code);
     }
     // Call the callback if provided (used to hide history panel)
@@ -208,7 +193,6 @@ function App() {
 
   const handleExamplesSelect = (example: string) => {
     setInputValue(example);
-    setActiveTab("interactive");
     handleSubmitWithCode(example);
   };
 
@@ -306,10 +290,10 @@ function App() {
             <Sheet.Trigger asChild>
               <h1
                 className="app-title"
-                onClick={() => {
-                  setInputValue("");
-                  setResult(null);
-                }}
+                // onClick={() => {
+                //   setInputValue("");
+                //   setResult(null);
+                // }}
               >
                 <img src="/logo.svg" alt="Logo" className="logo" />
               </h1>
@@ -331,34 +315,13 @@ function App() {
           loading={loading}
           error={error}
           history={history}
+          result={result}
           onHistorySelect={handleHistorySelect}
           onExamplesSelect={handleExamplesSelect}
           currentHistoryIndex={currentHistoryIndex}
           isDarkMode={isDarkMode}
-          width={
-            isMobile
-              ? undefined
-              : `calc(100% - ${result && !isMobile ? resultSectionWidth : 0}px)`
-          }
           globals={globals}
         />
-
-        <GlobalsPopover
-          globals={globals}
-          isDarkMode={isDarkMode}
-          onClose={() => setShowGlobalsPopover(false)}
-          triggerRect={globalsButtonRect}
-        />
-
-        {result && (
-          <ResultSection
-            result={result}
-            width={resultSectionWidth}
-            setWidth={setResultSectionWidth}
-            isMobile={isMobile}
-            activeTab={activeTab}
-          />
-        )}
       </div>
 
       <WelcomeModal

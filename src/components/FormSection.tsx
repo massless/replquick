@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { CodeInput } from "./CodeInput";
-import { EvaluationHistory } from "../types";
+import { EvalResponse, EvaluationHistory } from "../types";
 
 interface GlobalInfo {
   name: string;
@@ -17,6 +16,7 @@ interface FormSectionProps {
   loading: boolean;
   error: string | null;
   history: EvaluationHistory[];
+  result: EvalResponse | null;
   onHistorySelect: (index: number, onSelect?: () => void) => void;
   onExamplesSelect: (example: string) => void;
   currentHistoryIndex: number;
@@ -36,6 +36,7 @@ export function FormSection({
   onHistorySelect,
   onExamplesSelect,
   currentHistoryIndex,
+  result,
   isDarkMode,
   width,
   globals,
@@ -51,28 +52,12 @@ export function FormSection({
             history={history}
             onHistorySelect={onHistorySelect}
             currentHistoryIndex={currentHistoryIndex}
+            result={result}
             isDarkMode={isDarkMode}
             onExamplesSelect={onExamplesSelect}
             globals={globals}
+            loading={loading}
           />
-        </div>
-        <div className="button-group">
-          <span className="shift-enter-hint">Shift + Enter to run</span>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="submit-button"
-            disabled={loading}
-          >
-            {loading ? "Evaluating..." : "⚡ Evaluate"}
-          </button>
-          {/* <button
-            type="button"
-            onClick={handleNewSession}
-            className="new-session-button"
-          >
-            New Session
-          </button> */}
         </div>
 
         {error && <div className="error-message">Error: {error}</div>}

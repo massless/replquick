@@ -1,4 +1,4 @@
-import { Sheet } from "@silk-hq/components";
+import { Sheet, SheetRootProps } from "@silk-hq/components";
 import { LongSheet } from "./LongSheet";
 import "./ExamplesSheet.css";
 
@@ -132,25 +132,29 @@ myTodos;`,
   },
 ];
 
-interface ExamplesSheetProps {
+type SheetRootDivProps = Omit<SheetRootProps, "license" | "children"> &
+  React.HTMLAttributes<HTMLDivElement>;
+
+interface ExamplesSheetProps extends SheetRootDivProps {
   onClose: () => void;
-  onSelect: (code: string) => void;
+  onExampleSelect: (code: string) => void;
   presentTrigger: React.ReactNode;
 }
 
 const ExamplesSheet = ({
   onClose,
-  onSelect,
+  onExampleSelect,
   presentTrigger,
+  className,
 }: ExamplesSheetProps) => {
   const handleSelect = (code: string) => {
-    onSelect(code);
+    onExampleSelect(code);
     onClose();
   };
 
   return (
     <LongSheet
-      className="ExampleLongSheet-content"
+      className={`ExampleLongSheet-content ${className}`}
       presentTrigger={presentTrigger}
       sheetContent={
         <div className="ExampleLongSheet-article">
