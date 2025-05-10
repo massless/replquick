@@ -17,7 +17,7 @@
   /* SELF-LAYOUT */
   width: 100%;
   height: 100%;
-  align-content: center;
+  align-content: flex-end;
 
   /* APPEARANCE */
   background-color: transparent;
@@ -37,12 +37,11 @@
 
 .LongSheet-innerContent {
   /* SELF-LAYOUT */
-  margin: max(env(safe-area-inset-top, 0px), var(--size-6)) 0
-    max(env(safe-area-inset-bottom, 0px), var(--size-6));
+  margin: 0;
   width: 100%;
 
   /* APPEARANCE */
-  border-radius: var(--radius-7);
+  border-radius: var(--radius-7) var(--radius-7) 0 0;
   overflow: hidden;
   overflow: clip;
   background-color: white;
