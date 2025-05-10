@@ -1,15 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Sheet } from "@silk-hq/components";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { EditorView, placeholder } from "@codemirror/view";
-import { HistoryPanel } from "./HistoryPanel";
+import HistorySheet from "./HistorySheet";
 import GlobalsSheet from "./GlobalsSheet";
 import ExamplesSheet from "./ExamplesSheet";
 import ResultsSidebar from "./ResultsSidebar";
-import { useIsMobile } from "../hooks/useIsMobile";
 import { EvalResponse } from "../types";
 import "./CodeInput.css";
 
@@ -19,7 +18,7 @@ interface CodeInputProps {
   onChange: (value: string) => void;
   onSubmit: () => void;
   history: EvaluationHistory[];
-  onHistorySelect: (index: number, hideHistory: () => void) => void;
+  onHistorySelect: (index: number) => void;
   onExamplesSelect: (example: string) => void;
   currentHistoryIndex: number;
   result: EvalResponse | null;
@@ -53,13 +52,7 @@ export function CodeInput({
   isDarkMode,
   globals,
 }: CodeInputProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const examplesButtonRef = useRef<HTMLButtonElement>(null);
-  const globalsButtonRef = useRef<HTMLButtonElement>(null);
-  const [showHistory, setShowHistory] = useState(false);
-  const [showExamples, setShowExamples] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: Event) => {
@@ -112,41 +105,6 @@ export function CodeInput({
     }
   }, [result]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(target) &&
-        !target.closest(".history-item") &&
-        !examplesButtonRef.current?.contains(target) &&
-        !target.closest(".example-item") &&
-        !globalsButtonRef.current?.contains(target) &&
-        !target.closest(".global-item")
-      ) {
-        setShowHistory(false);
-        setShowExamples(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (showHistory && buttonRef.current) {
-      setButtonRect(buttonRef.current.getBoundingClientRect());
-    } else {
-      setButtonRect(null);
-    }
-  }, [showHistory]);
-
-  const handleHistorySelect = (index: number) => {
-    onHistorySelect(index, () => {
-      setShowHistory(false);
-    });
-  };
-
   const handleExampleSelect = (code: string) => {
     onChange(code);
     onExamplesSelect(code);
@@ -154,17 +112,6 @@ export function CodeInput({
 
   return (
     <div className="code-input-container">
-      {showHistory && (
-        <HistoryPanel
-          history={history}
-          currentHistoryIndex={currentHistoryIndex}
-          onHistorySelect={handleHistorySelect}
-          triggerRect={buttonRect}
-          isDarkMode={isDarkMode}
-          onClose={() => setShowHistory(false)}
-        />
-      )}
-
       <div className="code-editor-wrapper">
         <CodeMirror
           value={value}
@@ -246,7 +193,7 @@ export function CodeInput({
           className="examples-toggle toggle-button"
           presentTrigger={
             <Sheet.Trigger asChild>
-              <button ref={examplesButtonRef}>
+              <button>
                 <svg
                   fill="none"
                   strokeWidth="2"
@@ -276,7 +223,7 @@ export function CodeInput({
           className="globals-toggle toggle-button"
           presentTrigger={
             <Sheet.Trigger asChild>
-              <button ref={globalsButtonRef}>
+              <button>
                 <svg
                   fill="currentColor"
                   strokeWidth="0"
@@ -297,42 +244,38 @@ export function CodeInput({
           }
         />
 
-        <div className="history-toggle toggle-button">
-          <button
-            ref={buttonRef}
-            onClick={() => {
-              setShowHistory(!showHistory);
-            }}
-          >
-            <svg
-              fill="none"
-              strokeWidth="2"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M12 8l0 4l2 2"></path>
-              <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
-            </svg>
-            History
-          </button>
-        </div>
+        <HistorySheet
+          history={history}
+          className="history-toggle toggle-button"
+          currentHistoryIndex={currentHistoryIndex}
+          onHistorySelect={onHistorySelect}
+          isDarkMode={isDarkMode}
+          presentTrigger={
+            <Sheet.Trigger asChild>
+              <button>
+                <svg
+                  fill="none"
+                  strokeWidth="2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M12 8l0 4l2 2"></path>
+                  <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+                </svg>
+                History
+              </button>
+            </Sheet.Trigger>
+          }
+        />
 
         <div className="results-toggle toggle-button">
-          <button
-            ref={examplesButtonRef}
-            disabled={!result}
-            onClick={() => {
-              setShowExamples(!showExamples);
-              setShowHistory(false);
-              setShowResults(!showResults);
-            }}
-          >
+          <button disabled={!result}>
             <svg
               fill="none"
               strokeWidth="2"

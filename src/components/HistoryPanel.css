@@ -59,6 +59,7 @@
   user-select: none;
   pointer-events: auto;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .history-item:last-child {
@@ -85,6 +86,19 @@
   color: var(--text-color);
   font-size: 0.73em;
   opacity: 0.7;
+}
+
+.history-item-evaluate-button {
+  background: #666;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.6em;
+  position: absolute;
+  right: 4.7em;
+  top: 0.95em;
 }
 
 .expand-button {
