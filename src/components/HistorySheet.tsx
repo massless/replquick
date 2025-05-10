@@ -50,6 +50,8 @@ const HistorySheet = ({
   };
 
   const toggleExpand = (index: number, event: React.MouseEvent) => {
+    if (!isCodeExpandable(history[index].code)) return true;
+
     event.stopPropagation();
     setExpandedItems((prev) => {
       const next = new Set(prev);

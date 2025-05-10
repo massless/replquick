@@ -80,6 +80,7 @@
   justify-content: space-between;
   gap: 1em;
   margin-bottom: 4px;
+  padding-left: 6px;
 }
 
 .history-item .timestamp {
@@ -97,8 +98,9 @@
   cursor: pointer;
   font-size: 0.6em;
   position: absolute;
-  right: 4.7em;
-  top: 0.95em;
+  right: 2em;
+  top: 4em;
+  z-index: 1;
 }
 
 .expand-button {

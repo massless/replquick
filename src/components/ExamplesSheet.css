@@ -38,8 +38,8 @@
 
   /* INNER-LAYOUT */
   padding-block: var(--size-11) var(--size-12);
-  display: grid;
-  place-content: center;
+  display: flex;
+  flex-direction: column;
 }
 @media (min-width: 1000px) {
   .ExampleLongSheet-articleContent {
@@ -113,6 +113,7 @@
 }
 
 .ExampleLongSheet-articleBody {
+  width: 100%;
   /* SELF-LAYOUT */
   margin-top: var(--size-13);
   display: grid;
