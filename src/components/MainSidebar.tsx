@@ -1,7 +1,18 @@
-import { Scroll, Sheet, SheetStack } from "@silk-hq/components";
+import { Scroll, Sheet, SheetRootProps, SheetStack } from "@silk-hq/components";
 import { Sidebar } from "./Sidebar";
 import { useState } from "react";
 import "./MainSidebar.css";
+
+type SheetRootDivProps = Omit<SheetRootProps, "license" | "children"> &
+  React.HTMLAttributes<HTMLDivElement>;
+
+interface MainSidebarProps extends SheetRootDivProps {
+  presentTrigger: React.ReactNode;
+  sessionId: string;
+  isDarkMode: boolean;
+  onToggleDarkMode: () => void;
+  history: any[];
+}
 
 export const MainSidebar = ({
   presentTrigger,
@@ -9,13 +20,7 @@ export const MainSidebar = ({
   isDarkMode,
   onToggleDarkMode,
   history,
-}: {
-  presentTrigger: React.ReactNode;
-  sessionId: string;
-  isDarkMode: boolean;
-  onToggleDarkMode: () => void;
-  history: any[];
-}) => {
+}: MainSidebarProps) => {
   const [copied, setCopied] = useState(false);
 
   // Achievement badge logic

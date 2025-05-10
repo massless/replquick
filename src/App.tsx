@@ -288,6 +288,16 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setVh();
+    window.addEventListener("resize", setVh);
+    return () => window.removeEventListener("resize", setVh);
+  }, []);
+
   return (
     <div className="app-container">
       <MainSidebar
@@ -304,6 +314,7 @@ function App() {
         isDarkMode={isDarkMode}
         onToggleDarkMode={onToggleDarkMode}
         history={history}
+        asChild
       />
 
       <div className="main-content">
