@@ -1,6 +1,6 @@
 :root {
   /* Light theme variables */
-  --bg-color: rgb(237 237 237);
+  --bg-color: #f2f2f2;
   --text-color: #333333;
   --border-color: #e0e0e0;
   --input-bg: #f5f5f5;
@@ -665,10 +665,19 @@ body {
   box-sizing: border-box;
   min-height: 0;
   background-color: var(--bg-color);
-  gap: 0.4em;
+  gap: 1.4em;
   @media (max-width: 768px) {
     flex-direction: column;
     height: 100dvh;
+    gap: 0.5em;
+  }
+}
+
+.app-container > div {
+  padding: 0;
+  margin: 0;
+  @media (max-width: 768px) {
+    width: 100dvw;
   }
 }
 
@@ -682,6 +691,7 @@ body {
   cursor: pointer;
   height: 100%;
   transition: background-color 0.2s, box-shadow 0.2s;
+  border-right: 1px solid var(--border-color);
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -690,17 +700,10 @@ body {
   }
 }
 
-.app-container > div {
-  padding: 0;
-  margin: 0;
-  @media (max-width: 768px) {
-    width: 100dvw;
-  }
-}
-
 .app-container > div > header:hover {
   background-color: var(--input-bg);
-  box-shadow: 0 0 1px 1px var(--sidebar-hover-border);
+  /* box-shadow: 0 0 1px 1px var(--sidebar-hover-border); */
+  border-color: transparent;
 }
 
 .main-content {
@@ -814,13 +817,6 @@ body {
     padding: 1em 0 0;
   }
 
-  .form-section {
-    min-width: unset;
-    width: 100%;
-    height: 100%;
-    flex: none;
-  }
-
   .result-section {
     width: auto;
     padding: 1em;
@@ -917,6 +913,12 @@ button:focus-visible {
   /** TODO: #1f1e1e is needed in dark mode */
   box-shadow: none;
   border-radius: 100%;
+  display: none;
+}
+
+.app-title svg {
+  width: 1.3rem;
+  height: auto;
 }
 
 .app-title .wordmark {

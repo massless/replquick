@@ -44,11 +44,6 @@ const HistorySheet = ({
     return code.includes("\n") || code.length > 100;
   };
 
-  const handleItemClick = (index: number, _event: React.MouseEvent) => {
-    console.log("[HistoryPanel] History item clicked:", index); // Debug log
-    onHistorySelect(index);
-  };
-
   const onSelect = (index: number, _event: React.MouseEvent) => {
     console.log("[HistoryPanel] History item clicked:", index); // Debug log
     onHistorySelect(index);
@@ -95,7 +90,7 @@ const HistorySheet = ({
               <h1>History</h1>
             </Sheet.Title>
             <h2 className="ExampleLongSheet-subtitle">
-              Look back and see what you've done.
+              Omg, what have you <em>done</em>?
             </h2>
 
             <section className="ExampleLongSheet-articleBody">

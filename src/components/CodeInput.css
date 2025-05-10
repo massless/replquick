@@ -39,6 +39,10 @@
   }
 }
 
+.code-input-header .results-button {
+  margin: 0 0 0 auto;
+}
+
 .code-input-header button:hover {
   background-color: var(--button-hover);
 }
@@ -62,10 +66,26 @@
 .code-editor-wrapper {
   flex: 1;
   overflow: hidden;
+  background: var(--code-bg);
+  border-radius: 58px;
+  padding: 1.5em 0 1.5em 1em;
+  margin: 0 2em 1em 0;
+
   @media (max-width: 768px) {
     min-height: 30dvh;
-    padding: 0 1em;
+    margin-right: 1em;
+    border-radius: 28px;
   }
+}
+
+.code-editor-wrapper .cm-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.code-editor-wrapper .cm-scroller {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* CodeMirror customizations */
@@ -79,7 +99,7 @@
 }
 
 .code-editor-wrapper .cm-gutters {
-  background-color: var(--bg-color);
+  background-color: var(--code-bg);
   border: 0;
 }
 
