@@ -1,8 +1,7 @@
-import { Scroll, SheetStack, SheetRootProps } from "@silk-hq/components";
+import { Scroll, SheetRootProps } from "@silk-hq/components";
 import { Sidebar } from "./Sidebar";
 import { useRef, useState } from "react";
 import { EvalResponse } from "../types";
-import { useIsMobile } from "../hooks/useIsMobile";
 import { DebugView } from "./DebugView";
 import { InteractiveView } from "./InteractiveView";
 import "./MainSidebar.css";
@@ -17,8 +16,6 @@ interface ResultSidebarProps extends SheetRootDivProps {
 }
 
 export const ResultsSidebar = (props: ResultSidebarProps) => {
-  const isMobile = useIsMobile();
-
   const { result, presented, onPresentedChange } = props;
   const [activeTab, setActiveTab] = useState<"debug" | "interactive">(
     props.activeTab || "interactive"

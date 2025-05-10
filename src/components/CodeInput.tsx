@@ -323,44 +323,43 @@ export function CodeInput({
           </button>
         </div>
 
-        {result && (
-          <>
-            <div className="results-toggle toggle-button">
-              <button
-                ref={examplesButtonRef}
-                onClick={() => {
-                  setShowExamples(!showExamples);
-                  setShowHistory(false);
-                  setShowResults(!showResults);
-                }}
-              >
-                <svg
-                  fill="none"
-                  strokeWidth="2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2 -2v-14a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v14z"></path>
-                  <path d="M3 9h18"></path>
-                  <path d="M9 3v18"></path>
-                </svg>
-                Results
-              </button>
-            </div>
+        <div className="results-toggle toggle-button">
+          <button
+            ref={examplesButtonRef}
+            disabled={!result}
+            onClick={() => {
+              setShowExamples(!showExamples);
+              setShowHistory(false);
+              setShowResults(!showResults);
+            }}
+          >
+            <svg
+              fill="none"
+              strokeWidth="2"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2 -2v-14a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v14z"></path>
+              <path d="M3 9h18"></path>
+              <path d="M9 3v18"></path>
+            </svg>
+            Results
+          </button>
+        </div>
 
-            <ResultsSidebar
-              presented={showResults}
-              onPresentedChange={setShowResults}
-              result={result}
-              activeTab={"interactive"}
-            />
-          </>
+        {result && (
+          <ResultsSidebar
+            presented={showResults}
+            onPresentedChange={setShowResults}
+            result={result}
+            activeTab={"interactive"}
+          />
         )}
       </div>
     </div>
