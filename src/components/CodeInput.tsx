@@ -219,7 +219,7 @@ export function CodeInput({
                   <path d="M3 9h18"></path>
                   <path d="M9 3v18"></path>
                 </svg>
-                Examples
+                Snippets
               </button>
             </Sheet.Trigger>
           }
