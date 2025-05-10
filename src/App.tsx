@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { EvalResponse, EvaluationHistory } from "./types";
 import { Sheet } from "@silk-hq/components";
-import { WelcomeModal } from "./components/WelcomeModal";
 import { FormSection } from "./components/FormSection";
 import MainSidebar from "./components/MainSidebar";
 import "./App.css";
@@ -29,7 +28,6 @@ function App() {
   const [history, setHistory] = useState<EvaluationHistory[]>([]);
   const [globals, setGlobals] = useState<GlobalInfo[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark" || !savedTheme; // Default to dark mode if no theme is saved
@@ -81,12 +79,6 @@ function App() {
     const storedSessionId = localStorage.getItem("sessionId");
     if (storedSessionId) {
       setSessionId(storedSessionId);
-    }
-
-    // Check if this is the user's first visit
-    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
-    if (!hasVisitedBefore) {
-      setShowWelcomeModal(true);
     }
   }, []);
 
@@ -279,11 +271,6 @@ function App() {
     }
   };
 
-  const handleCloseWelcomeModal = () => {
-    setShowWelcomeModal(false);
-    localStorage.setItem("hasVisitedBefore", "true");
-  };
-
   const onToggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -335,11 +322,6 @@ function App() {
           globals={globals}
         />
       </div>
-
-      <WelcomeModal
-        isOpen={showWelcomeModal}
-        onClose={handleCloseWelcomeModal}
-      />
     </div>
   );
 }

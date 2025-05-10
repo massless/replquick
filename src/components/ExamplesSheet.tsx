@@ -1,6 +1,9 @@
+import { useCallback, useState } from "react";
 import { Sheet, SheetRootProps } from "@silk-hq/components";
 import { LongSheet } from "./LongSheet";
+import { WelcomeModal } from "./WelcomeModal";
 import "./ExamplesSheet.css";
+import "./WelcomeModal.css";
 
 interface ExampleItem {
   id: string;
@@ -147,67 +150,100 @@ const ExamplesSheet = ({
   presentTrigger,
   className,
 }: ExamplesSheetProps) => {
+  const initialHasVisited = localStorage.getItem("hasVisitedBefore") === "true";
+
+  const [hasVisitedBefore, setHasVisitedBefore] =
+    useState<boolean>(initialHasVisited);
+  const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(
+    !initialHasVisited
+  );
+  const [showExamplesSheet, setShowExamplesSheet] = useState(false);
   const handleSelect = (code: string) => {
     onExampleSelect(code);
     onClose();
   };
 
-  return (
-    <LongSheet
-      className={`ExampleLongSheet-content ${className}`}
-      presentTrigger={presentTrigger}
-      sheetContent={
-        <div className="ExampleLongSheet-article">
-          <Sheet.Trigger action="dismiss" asChild>
-            <button className={`ExampleLongSheet-dismissTrigger`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={`ExampleLongSheet-dismissTriggerIcon`}
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
-            </button>
-          </Sheet.Trigger>
-          <div className="ExampleLongSheet-articleContent">
-            <Sheet.Title className="ExampleLongSheet-title" asChild>
-              <h1>Snippets</h1>
-            </Sheet.Title>
-            <h2 className="ExampleLongSheet-subtitle">
-              Try any of these snippets to get started.
-            </h2>
+  const handleWelcomeModalClose = useCallback(() => {
+    console.log("[ExamplesSheet] handleWelcomeModalClose");
+    localStorage.setItem("hasVisitedBefore", "true");
+    setShowWelcomeModal(false);
+    window.requestAnimationFrame(() => {
+      setShowExamplesSheet(true); // Show ExamplesSheet after WelcomeModal closes
+      setHasVisitedBefore(true);
+    });
+  }, []);
 
-            <section className="ExampleLongSheet-articleBody">
-              {examples.map((example) => (
-                <Sheet.Trigger action="dismiss" asChild key={example.id}>
-                  <button
-                    className="ExampleCard-exampleItem"
-                    onClick={() => handleSelect(example.code)}
-                    aria-label={`Insert example: ${example.title}`}
+  return (
+    <>
+      {showWelcomeModal && (
+        <WelcomeModal
+          isOpen={showWelcomeModal}
+          onClose={handleWelcomeModalClose}
+        />
+      )}
+      {hasVisitedBefore && (
+        <LongSheet
+          className={`ExampleLongSheet-content ${className}`}
+          presented={showExamplesSheet}
+          onPresentedChange={setShowExamplesSheet}
+          presentTrigger={presentTrigger}
+          sheetContent={
+            <div className="ExampleLongSheet-article">
+              <Sheet.Trigger action="dismiss" asChild>
+                <button className={`ExampleLongSheet-dismissTrigger`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`ExampleLongSheet-dismissTriggerIcon`}
                   >
-                    <span className="ExampleCard-exampleIcon">
-                      {example.icon}
-                    </span>
-                    <div className="ExampleCard-exampleContent">
-                      <h4>{example.title}</h4>
-                      <p>{example.description}</p>
-                    </div>
-                    <span className="ExampleCard-chevron" aria-hidden="true">
-                      ›
-                    </span>
-                  </button>
-                </Sheet.Trigger>
-              ))}
-            </section>
-          </div>
-        </div>
-      }
-    />
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </Sheet.Trigger>
+              <div className="ExampleLongSheet-articleContent">
+                <Sheet.Title className="ExampleLongSheet-title" asChild>
+                  <h1>Snippets</h1>
+                </Sheet.Title>
+                <h2 className="ExampleLongSheet-subtitle">
+                  Try any of these snippets to get started.
+                </h2>
+
+                <section className="ExampleLongSheet-articleBody">
+                  {examples.map((example) => (
+                    <Sheet.Trigger action="dismiss" asChild key={example.id}>
+                      <button
+                        className="ExampleCard-exampleItem"
+                        onClick={() => handleSelect(example.code)}
+                        aria-label={`Insert example: ${example.title}`}
+                      >
+                        <span className="ExampleCard-exampleIcon">
+                          {example.icon}
+                        </span>
+                        <div className="ExampleCard-exampleContent">
+                          <h4>{example.title}</h4>
+                          <p>{example.description}</p>
+                        </div>
+                        <span
+                          className="ExampleCard-chevron"
+                          aria-hidden="true"
+                        >
+                          ›
+                        </span>
+                      </button>
+                    </Sheet.Trigger>
+                  ))}
+                </section>
+              </div>
+            </div>
+          }
+        />
+      )}
+    </>
   );
 };
 

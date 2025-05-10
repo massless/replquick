@@ -153,7 +153,7 @@
   font-size: 1.4rem;
 }
 
-.modal-button {
+.welcome-modal-content .modal-button {
   background: linear-gradient(135deg, #404040, #3a3a3a);
   color: white;
   border: none;
@@ -165,6 +165,8 @@
   transition: transform 0.2s, box-shadow 0.2s;
   letter-spacing: 0.5px;
   outline: none;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .modal-button:hover {

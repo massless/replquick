@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useIsMobile } from "../hooks/useIsMobile";
@@ -9,27 +9,30 @@ interface WelcomeModalProps {
   onClose: () => void;
 }
 
-export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
+export const WelcomeModal = (props: WelcomeModalProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (isOpen) {
+    if (props.isOpen && !isOpen) {
+      console.log("[WelcomeModal] isOpen");
       document.body.style.overflow = "hidden";
+      setIsOpen(true);
     } else {
       document.body.style.overflow = "unset";
     }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
+  }, [props.isOpen, isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay">
       <div
         className="welcome-modal-content"
-        onClick={(e) => e.stopPropagation()}
+        // onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-body">
           <div className="debug-view">
@@ -70,7 +73,13 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
           <p className="modal-slogan">is a quick JavaScript playground</p>
         </header>
 
-        <button className="modal-button" onClick={onClose}>
+        <button
+          className="modal-button"
+          onClick={() => {
+            console.log("[WelcomeModal] a thing", props.onClose);
+            props.onClose();
+          }}
+        >
           ⚡ Code it
         </button>
       </div>
