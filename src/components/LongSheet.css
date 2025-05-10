@@ -5,7 +5,7 @@
 .LongSheet-view {
   /* SELF-LAYOUT */
   z-index: 1;
-  top: 0;
+  top: 1.5em;
   bottom: initial;
   backdrop-filter: blur(5px);
   /* Adding 60px to make it fully visible below iOS Safari's

@@ -74,7 +74,7 @@
 }
 
 .globals-list {
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  padding: 0;
 }
 
 .globals-items {
@@ -86,18 +86,18 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1.25rem 1.5rem;
+  padding: 0 0.5em 1em;
   border: none;
-  border-radius: 1.5rem;
-  background: var(--button-bg, #f8f8fa);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06),
-    0 1.5px 4px 0 rgba(0, 0, 0, 0.03);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   font-size: 1.05rem;
   font-weight: 500;
   color: var(--sheet-text-primary, #222);
   transition: background 0.15s, box-shadow 0.15s, transform 0.08s;
   min-height: 4.5rem;
   outline: none;
+  border-bottom: 1px solid var(--border-color);
 }
 .global-item:active {
   background: var(--button-hover, #ececf0);
