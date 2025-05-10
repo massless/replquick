@@ -61,6 +61,22 @@ export const ResultsSidebar = (props: ResultSidebarProps) => {
           <Scroll.Root asChild>
             <Scroll.View>
               <Scroll.Content className="MainSidebar-scrollContent ResultsSidebar-scrollContent">
+                {result.newGlobals && result.newGlobals.length > 0 && (
+                  <div className="new-globals-boast">
+                    <div className="new-globals-boast-title">
+                      You have{" "}
+                      {result.newGlobals.length > 1
+                        ? "new globals"
+                        : " a new global"}{" "}
+                      available.
+                    </div>
+                    <div className="new-globals-boast-description">
+                      {result.newGlobals.map((global) => (
+                        <div key={global.name}>"{global.name}"</div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="tab-content">
                   {activeTab === "debug" ? (
                     <DebugView data={result} />
